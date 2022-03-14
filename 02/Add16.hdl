@@ -9,9 +9,12 @@
  */
 
 CHIP Add16 {
-    IN a[16], b[16];
-    OUT out[16];
+    IN a[16], b[16];  // 16-bit inputs
+    OUT out[16];   
 
     PARTS:
-   // Put you code here:
+    Add8(a=a[0..7], b=b[0..7], c = false, sum=out[0..7], carry=carry0);
+    Add8(a=a[8..15], b=b[8..15], c=carry0, sum=out[8..15], carry=carry1);
+
 }
+

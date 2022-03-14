@@ -1,0 +1,11 @@
+CHIP Add2 {
+    IN a[2], b[2], c;  // 2-bit inputs
+    OUT sum[2],     
+        carry;   // Extra bit
+
+    PARTS:
+    FullAdder(a=a[0], b=b[0], c = c, sum=sum[0], carry=carry0);
+    FullAdder(a=a[1], b=b[1], c=carry0, sum=sum[1], carry=carry);
+    
+}
+
