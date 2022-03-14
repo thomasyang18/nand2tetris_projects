@@ -1,0 +1,10 @@
+CHIP Or4 {
+    IN a[4], b[4];
+    OUT out[4];
+
+    PARTS:
+    Not4(in=a, out=nota);
+    Not4(in=b, out=notb);
+    Nand4(a=nota, b=notb, out=out);
+}
+

@@ -1,0 +1,13 @@
+CHIP Mux8 {
+    IN a[8], b[8], sel;
+    OUT out[8];
+
+    PARTS:
+    Id8(in=sel, out=selArr);
+    Not8(in=selArr, out=NOTsel);
+    And8(a=a,b=NOTsel,out=aANDNOTsel);
+    And8(a=b,b=selArr,out=bANDsel);
+    Or8(a=aANDNOTsel, b=bANDsel, out=out);
+
+}
+

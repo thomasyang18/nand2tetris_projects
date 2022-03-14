@@ -13,5 +13,5 @@ CHIP Or8Way {
     OUT out;
 
     PARTS:
-    // Put your code here:
+    
 }

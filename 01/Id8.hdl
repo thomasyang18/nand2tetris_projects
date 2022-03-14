@@ -1,0 +1,9 @@
+CHIP Id8{
+        IN in;
+        OUT out[8];
+
+        PARTS:
+        Id4(in=in, out=out[0..3]);
+        Id4(in=in, out=out[4..7]);
+}
+

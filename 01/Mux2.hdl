@@ -1,0 +1,16 @@
+CHIP Mux2 {
+    IN a[2], b[2], sel;
+    OUT out[2];
+
+    PARTS:
+    Id2(in=sel, out=selArr);
+    Not2(in=selArr, out=NOTsel);
+    And2(a=a,b=NOTsel,out=aANDNOTsel);
+    And2(a=b,b=selArr,out=bANDsel);
+    Or2(a=aANDNOTsel, b=bANDsel, out=out);
+    
+}
+
+
+
+

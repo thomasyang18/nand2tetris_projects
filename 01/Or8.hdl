@@ -1,0 +1,10 @@
+CHIP Or8 {
+    IN a[8], b[8];
+    OUT out[8];
+
+    PARTS:
+    Not8(in=a, out=nota);
+    Not8(in=b, out=notb);
+    Nand8(a=nota, b=notb, out=out);
+}
+

@@ -13,5 +13,6 @@ CHIP Not16 {
     OUT out[16];
 
     PARTS:
-    // Put your code here:
+    Not8(in=in[0..7], out=out[0..7]);
+    Not8(in=in[8..15], out=out[8..15]);
 }

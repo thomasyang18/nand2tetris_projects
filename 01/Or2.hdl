@@ -1,0 +1,10 @@
+CHIP Or2 {
+    IN a[2], b[2];
+    OUT out[2];
+
+    PARTS:
+    Not2(in=a, out=nota);
+    Not2(in=b, out=notb);
+    Nand2(a=nota, b=notb, out=out);
+}
+

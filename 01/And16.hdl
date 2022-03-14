@@ -13,5 +13,10 @@ CHIP And16 {
     OUT out[16];
 
     PARTS:
-    // Put your code here:
+    Nand8(a = a[0..7], b = b[0..7], out = aNANDb0);
+    Not8(in = aNANDb0, out=out[0..7]);
+
+    Nand8(a = a[8..15], b = b[8..15], out = aNANDb1);
+    Not8(in = aNANDb1, out=out[8..15]);
 }
+
