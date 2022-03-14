@@ -1,0 +1,9 @@
+// Assigns the single input bit to output bit(s).
+CHIP Id{
+	IN in;
+	OUT out;
+
+	PARTS:
+	Not(in=in, out=notIn);
+	Not(in=notIn, out=out);
+}

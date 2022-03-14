@@ -1,0 +1,7 @@
+CHIP FirstBit16{
+	IN in[16];
+	OUT out;
+
+	PARTS:
+	Id(in=in[15],out=out);
+}

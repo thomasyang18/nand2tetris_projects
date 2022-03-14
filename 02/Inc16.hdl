@@ -13,5 +13,7 @@ CHIP Inc16 {
     OUT out[16];
 
     PARTS:
-    
+    Add8(a=in[0..7], b=false, c=true, sum=out[0..7], carry=carry0);
+    Add8(a=in[8..15], b=false, c=carry0, sum=out[8..15], carry=carry1);
+
 }

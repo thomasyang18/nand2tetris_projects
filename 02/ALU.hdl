@@ -42,5 +42,34 @@ CHIP ALU {
         ng; // 1 if (out < 0),  0 otherwise
 
     PARTS:
-   // Put you code here:
+	Mux16(a=x,b=false, sel=zx, out=x0);
+	Not16(in=x0, out=NOTx0);
+	Mux16(a=x0, b=NOTx0, sel=nx, out=x1);
+
+	Mux16(a=y,b=false, sel=zy, out=y0);
+        Not16(in=y0, out=NOTy0);
+        Mux16(a=y0, b=NOTy0, sel=ny, out=y1);
+	
+	Add16(a=x1, b=y1, out=ADDres);
+	And16(a=x1, b=y1, out=ANDres);
+	
+	Mux16(a=ANDres, b=ADDres, sel=f, out=preRes);
+	
+	Not16(in=preRes, out=NOTpreRes);
+
+        Mux16(a=preRes, b=NOTpreRes, sel=no, out=out);
+	Mux16(a=preRes, b=NOTpreRes, sel=no, out=postRes);
+
+        // To check equality, check if out == 0. To check that, AND true with result.
+        // Or all bits together, assign NOT(result) to zr.
+        
+        Or16Way(in=postRes, out=notZr);
+        Not(in=notZr, out=zr);
+
+        // To check negative, check if MSB == 1.
+	
+	FirstBit16(in=postRes, out=ng);
+       
+	
 }
+
