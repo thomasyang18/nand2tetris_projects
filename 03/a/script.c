@@ -1,8 +1,8 @@
 #include<stdio.h>
 
 int main(){
-	for (int i = 0; i < 8; i++){
-	printf("%c = out%i, ", 'a'+i, i);
+	for (int i = 0; i < 16; i++){
+	printf("        Id(in = in[%i], out = out[%i]);\n", i, i);
 	}
 
 }

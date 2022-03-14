@@ -4,5 +4,6 @@ Bit.hdl
 Register.hdl
 RAM8.hdl
 RAM64.hdl
+PC.hdl
 
 

@@ -1,0 +1,24 @@
+CHIP Id16{
+	IN in[16];
+	OUT out[16];
+
+	PARTS:
+        Id(in = in[0], out = out[0]);
+        Id(in = in[1], out = out[1]);
+        Id(in = in[2], out = out[2]);
+        Id(in = in[3], out = out[3]);
+        Id(in = in[4], out = out[4]);
+        Id(in = in[5], out = out[5]);
+        Id(in = in[6], out = out[6]);
+        Id(in = in[7], out = out[7]);
+        Id(in = in[8], out = out[8]);
+        Id(in = in[9], out = out[9]);
+        Id(in = in[10], out = out[10]);
+        Id(in = in[11], out = out[11]);
+        Id(in = in[12], out = out[12]);
+        Id(in = in[13], out = out[13]);
+        Id(in = in[14], out = out[14]);
+        Id(in = in[15], out = out[15]);
+
+	
+}
