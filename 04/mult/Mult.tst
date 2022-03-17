@@ -3,6 +3,7 @@
 // by Nisan and Schocken, MIT Press.
 // File name: projects/04/mult/Mult.tst
 
+
 load Mult.asm,
 output-file Mult.out,
 compare-to Mult.cmp,

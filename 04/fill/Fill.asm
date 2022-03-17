@@ -11,4 +11,45 @@
 // "white" in every pixel;
 // the screen should remain fully clear as long as no key is pressed.
 
-// Put your code here.
+(START)
+	@color
+	M = 0
+
+	@KBD
+	D = M
+	@SKIP
+	D; JEQ
+	
+	@color
+	M = -1
+
+(SKIP)
+// Fill in 1024 blocks the same color, so indices SCREEN to SCREEN+1023
+	@8191
+	D = A	
+	@i
+	M = D
+(LOOP)
+// Store SCREEN + i in a temporary variable
+	@SCREEN
+	D = A
+	@i
+	D = D+M
+	@TEMP
+	M = D
+
+// D = color, @i, A = M, M = D
+	@color
+	D = M
+	@TEMP
+	A = M
+	M = D
+
+	@i
+	M = M-1
+	D = M	
+	@LOOP
+	D; JGE
+
+	@START
+	0; JMP
