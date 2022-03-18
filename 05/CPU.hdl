@@ -39,5 +39,46 @@ CHIP CPU {
         pc[15];          // address of next instruction
 
     PARTS:
-    // Put your code here:
+    
+/**
+ * PSEUDOCODE
+ * If (instruction[15] == 0)
+ * 	Load instruction[0..14] into A
+ *      addressM = A
+ *      outM =  
+ *
+ * If (instruction[15] == 1)
+ * 	If instruction[12] == 0 (the "a" bit), use A in operations, otherwise use M in operations. 
+ * 	It looks like from the table, the expression is D [fxn] [insert value] when inputting to ALU, with control bits mapped [6..11] ofc
+ *      d3 = whether M is stored, d2 = whether D is stored, d1 = whether A is stored
+ *      
+ *      Jump just means whether you set A = PCCounter or not (imo Hack would be nicer if uncondtiion was 000, saying you need "no conditions"
+ *      to jump and null was 111, you need "every condition" which impossible)
+ * 
+ *      It appears that JMP is (j1 == ng) AND (j2 == zr) AND (j3 == not ng)
+ *     	Except when AND(j1, j2, j3) == 1  
+ *      
+ *      Mux that with reset, if reset == 1 pick PC = 0 else pick PC = whatever
+ */
+
+    Not(in=instruction[15], out=not15);
+   
+    And(a=not15, b=instruction[5],out=loadA);
+
+    // A register
+    Register(in = ALUout, load=loadA, out=A);
+    Register(in = ALUout, load=instruction[4], out=D); // instruction 4 is loadD
+
+    Mux(a=A, b=inM, sel=instruction[12], out=opVal);
+
+    ALU(x=D, y=opVal, zx=instruction[11], nz=instruction[10], zy=instruction[9], ny=instruction[8], f=instruction[7], no=instruction[6], out=ALUout, zr=zr, ng=ng);
+
+    // instruction[3] is writeM
+    And(a=true, b=instruction[3], out=writeM);
+    And16(a=true, b=ALUout, out=outM);
+    
+	
+    Not(in=ng, out=NOTng);
+
+
 }

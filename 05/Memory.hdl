@@ -27,5 +27,27 @@ CHIP Memory {
     OUT out[16];
 
     PARTS:
-    // Put your code here:
+    DMux(in=load, sel=address[14],
+    a=load0, b=load1);
+
+    RAM16K(in=in, load=load0, address=address[0..13], out=out0);
+
+    Not(in=address[13], out=NOTaddr13);
+
+    And(a=load1, b=NOTaddr13, out = screenLoad); 
+
+    Screen(in=in, load=screenLoad, address=address[0..12], out=out1);
+
+    // If addr[14] is 0, lower 16k bits
+    // If addr[14] is 1, it's a screen bit. 
+    // If addr[13] is also 1, it's a keyboard bit.
+   // Need a 3 way muxing thing 
+
+    Mux16(a = out0, b = out1, sel=address[14], out=tempout);
+	
+    Keyboard(out=keyOut);
+
+    And(a=address[13], b=address[14], out=keyLoad);
+
+    Mux16(a = tempout, b = keyOut, sel = keyLoad, out=out);     
 }
