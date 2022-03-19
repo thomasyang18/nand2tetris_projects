@@ -1,11 +1,9 @@
-# AST SPECIFICATION
+# Grammar SPECIFICATION
 
-Pass through once for labels
+<program> := <ins_list> EOF
+<ins_list> := <insA> \n <ins_list> | <insC> \n <ins_list> | \eps
+<insA> := @<variable> | @<number>
 
-Pass through again for variables, store instructions in linear(ish) struct
+(variables cannot start with digits, numbers must contain only digits)
 
-@ commands can be easily parsed, it has its own block
-
-Otherwise, all expressions are of the form "dst = cmp; jmp"
-
-
+<insC> := <string><delim><string> | <string><delim><string><delim><string>
