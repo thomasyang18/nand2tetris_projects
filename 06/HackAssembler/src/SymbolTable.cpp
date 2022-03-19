@@ -56,3 +56,13 @@ int getSymbol(std::string input){
 	std::cerr << "Did not find symbol: " << input << std::endl;
 	exit(EXIT_FAILURE);
 }
+
+//debug methods
+
+void printSymbolTable(){
+	std::cout << "-------Symbol Table-------" << std::endl;
+	for (auto entry: symbolTable){
+		std::cout << entry.first << " " << entry.second << std::endl;
+	}
+	std::cout << "-------End of Symbol Table------" << std::endl;
+}

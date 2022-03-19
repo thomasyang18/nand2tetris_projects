@@ -10,5 +10,7 @@ void addGotoLabel(std::string input, int line);
 void addSymbol(std::string input);
 int getSymbol(std::string input);
 
+// debug method
+void printSymbolTable();
 
 #endif

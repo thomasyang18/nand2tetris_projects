@@ -8,7 +8,7 @@
 class ASTNode{
 	public:
 		ASTNode *next;
-		virtual void printToFile(std::ofstream output) = 0;
+		virtual void printToFile(std::ofstream& output) = 0;
 };
 
 class InstructionA: public ASTNode{
@@ -16,7 +16,7 @@ class InstructionA: public ASTNode{
 		// methods to convert X into a 15 bit integer
 		InstructionA(int x);
 		InstructionA(std::string s);
-		void printToFile(std::ofstream output) override;
+		void printToFile(std::ofstream& output) override;
 	private:
 		int value; // label value
 };
@@ -24,7 +24,7 @@ class InstructionA: public ASTNode{
 class InstructionC: public ASTNode{
 	public:
 		InstructionC(std::string s);
-		void printToFile(std::ofstream output) override;
+		void printToFile(std::ofstream& output) override;
 	
 	private:
 		int jmp, dest, control;

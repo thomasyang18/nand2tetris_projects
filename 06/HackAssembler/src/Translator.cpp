@@ -7,11 +7,11 @@
 #define COMPARE_TABLE_FILE "compare_table.txt"
 
 
-void InstructionA::printToFile(std::ofstream input){
+void InstructionA::printToFile(std::ofstream& input){
 
 }
 
-void InstructionC::printToFile(std::ofstream input){
+void InstructionC::printToFile(std::ofstream& input){
 
 }
 
