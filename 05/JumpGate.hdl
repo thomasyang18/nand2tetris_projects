@@ -1,0 +1,31 @@
+CHIP JumpGate{
+	IN j1, j2, j3, zr, ng;
+	OUT out;
+//       It appears that JMP is (j1 == ng) ? (j2 == zr) ? (j3 == not ng)
+//      	Except when AND(j1, j2, j3) == 1  
+//
+
+	// Whenever j_x == 1, it may match
+	// Otherwise, j_x == [whatever its equiv to] == 0
+	
+	// Under this system, its probably enough to just check that if j_x ==0, then whatever its equiv to must be zero.
+	// That would make the hack system make sense
+
+	PARTS:
+	
+	// Positive iff NOTng and NOT zr
+	
+	Not(in=zr, out=NOTzr);
+	Not(in=ng, out=NOTng);
+
+	And(a=NOTzr, b=NOTng, out=pos);	
+	
+	Not(in=pos, out=NOTpos);
+
+	Mux(a=NOTng, b=true, sel=j1, out=clause1); // Allows a negative jump, but  if j1 == 0, the number needs to be positive or zero.
+	Mux(a=NOTzr, b=true, sel=j2, out=clause2); // Allows a =zero jump, but if j2 == 0, the number needs to be positive or negative.
+	Mux(a=NOTpos, b=true, sel=j3, out=clause3); // Allows a positive jump, but if j3 == 0, the number needs to be negative or zero.
+
+	And(a=clause1,b=clause2, out=clause12);
+	And(a=clause12,b=clause3, out=out);
+}
