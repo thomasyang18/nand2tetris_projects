@@ -1,11 +1,11 @@
 # Grammar SPECIFICATION
 
-program := <ins_list> EOF
+program := (ins_list) EOF
   
-ins_list := <insA> \n <ins_list> | <insC> \n <ins_list> | \eps
+ins_list := (insA) \n (ins_list) | (insC) \n (ins_list) | \eps
   
-insA := @<variable> | @<number>
+insA := @(variable) | @(number)
 
 (variables cannot start with digits, numbers must contain only digits)
 
-insC := <string><delim><string> | <string><delim><string><delim><string>
+insC := (string)(delim)(string) | (string)(delim)(string)(delim)(string)
