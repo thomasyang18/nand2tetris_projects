@@ -12,8 +12,9 @@
 
 std::map<std::string, int> symbolTable;
 
-int symbolID = RESERVED_REGISTERS; // will place them in an iterative order
+int symbolID = RESERVED_REGISTERS; // ROM can only have 32k size
 
+// Initializes all default symbols and reserved registers
 void initSymbolTable(){
 	std::ifstream file(RESERVED_SYMBOLS_FILE);
 	std::string s;
@@ -23,13 +24,23 @@ void initSymbolTable(){
 		symbolTable[s] = pos;
 	}
 
-	for (int i = 0; i < 16; i++){
+	for (int i = 0; i < RESERVED_REGISTERS; i++){
 		std::string key = "R" +std::to_string(i);
 		symbolTable[key] = i;
 	}	
 }
 
-void addLabel(std::string input){
+void addGotoLabel(std::string input, int line){
+	if (symbolTable.find(input) != symbolTable.end()){
+		// Actually a problem this time; can't have two goto labels
+		std::cerr << "Cannot have two goto labels of the same name: " << input << " on line " << line << std::endl;
+		exit(EXIT_FAILURE);
+	}
+	symbolTable[input] = line;
+
+}
+
+void addSymbol(std::string input){
 	if (symbolID >= SYMBOL_CAP){
 		std::cerr << "Exceeded Symbol Limit" << std::endl;
 		exit(EXIT_FAILURE);
@@ -38,7 +49,7 @@ void addLabel(std::string input){
 	symbolTable[input] = symbolID++;
 }
 
-int getLabel(std::string input){
+int getSymbol(std::string input){
 	if (symbolTable.find(input) != symbolTable.end()){
 		return symbolTable[input];
 	}

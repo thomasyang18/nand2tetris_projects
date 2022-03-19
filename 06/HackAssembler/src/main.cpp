@@ -2,7 +2,6 @@
 #include <iostream>
 #include <string>
 #include "Parser.h"
-#include "Translator.h"
 #include "SymbolTable.h"
 
 void init(){

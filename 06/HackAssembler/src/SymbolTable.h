@@ -4,7 +4,7 @@
 #include<string>
 
 void initSymbolTable();
-void addLabel(std::string input);
-int getLabel(std::string input);
+void addSymbol(std::string input);
+int getSymbol(std::string input);
 
 #endif
