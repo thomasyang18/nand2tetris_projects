@@ -47,7 +47,7 @@
 // right now i have 24 instructions per loop 
 // 
 
-// shit code to see if it passes test cases
+// bad code to see if it passes test cases
 
 
 @R2

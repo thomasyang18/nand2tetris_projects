@@ -44,10 +44,9 @@ CHIP CPU {
  * PSEUDOCODE
  * If (instruction[15] == 0)
  * 	Load instruction[0..14] into A
- *      addressM = A
- *      outM =  
+ * Otherwise load from ALU output 
  *
- * If (instruction[15] == 1)
+ * 
  * 	If instruction[12] == 0 (the "a" bit), use A in operations, otherwise use M in operations. 
  * 	It looks like from the table, the expression is D [fxn] [insert value] when inputting to ALU, with control bits mapped [6..11] ofc
  *      d3 = whether M is stored, d2 = whether D is stored, d1 = whether A is stored
@@ -61,24 +60,36 @@ CHIP CPU {
  *      Mux that with reset, if reset == 1 pick PC = 0 else pick PC = whatever
  */
 
+    // Need to AND all M and D load instructions iwth instruction[15]
+
+    And(a=instruction[15], b=instruction[4], out= loadD);
+    And(a=instruction[15], b=instruction[3], out=loadM);
+
     Not(in=instruction[15], out=not15);
    
-    And(a=not15, b=instruction[5],out=loadA);
+    Or(a=not15, b=instruction[5],out=loadA); // instruction 5 is d1 
 
-    // A register
-    Register(in = ALUout, load=loadA, out=A);
-    Register(in = ALUout, load=instruction[4], out=D); // instruction 4 is loadD
+    Mux16(a=instruction, b=ALUout, sel=instruction[15], out=SelValueA);
 
-    Mux(a=A, b=inM, sel=instruction[12], out=opVal);
+    ARegister(in = SelValueA, load=loadA, out=A);
+    DRegister(in = ALUout, load=loadD, out=D); // instruction 4 is loadD, aka d2
 
-    ALU(x=D, y=opVal, zx=instruction[11], nz=instruction[10], zy=instruction[9], ny=instruction[8], f=instruction[7], no=instruction[6], out=ALUout, zr=zr, ng=ng);
+    Mux16(a=A, b=inM, sel=instruction[12], out=otherInput);
 
-    // instruction[3] is writeM
-    And(a=true, b=instruction[3], out=writeM);
-    And16(a=true, b=ALUout, out=outM);
+    ALU(x=D, y=otherInput, zx=instruction[11], nx=instruction[10], zy=instruction[9], ny=instruction[8], f=instruction[7], no=instruction[6], out=ALUout, zr=zr, ng=ng);
+
     
-	
-    Not(in=ng, out=NOTng);
 
+    Or16(a=ALUout, out=outM);
+
+    Or(a=loadM, out=writeM);
+
+    Or16(a=A, out[0..14]=addressM);
+
+    JumpGate(j1=instruction[2], j2 = instruction[1], j3 = instruction[0], zr=zr,ng=ng, out=doJump);
+
+    And(a=doJump, b=instruction[15], out=doJump2);
+
+    PC(in=A, load=doJump2, inc=true, reset=reset, out[0..14]=pc);
 
 }
