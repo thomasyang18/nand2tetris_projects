@@ -1,3 +1,7 @@
+# How to use
+
+Compile any ###.asm program into any ###.hack program by running ./HackAssembler [program name].asm
+
 # Grammar SPECIFICATION
 
 program := (ins_list) EOF

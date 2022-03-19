@@ -31,11 +31,15 @@ int main(int argc, char **argv){
 
 	pass1(input);
 
+	input.clear();
+	input.seekg(0);
+
 	pass2(input);
 
-	printSymbolTable();
-	
 	translate(output);
+	
+	input.close();
+	output.close();
 
 	exit(EXIT_SUCCESS);
 

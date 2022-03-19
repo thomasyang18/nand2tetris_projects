@@ -44,6 +44,8 @@ void pass1(std::ifstream& input){
 			addGotoLabel(label, line);
 
 			readingLabel = false;
+			
+			label = "";
 		}
 		 
 		else if (ch == prev and ch == '/'){
@@ -58,11 +60,59 @@ void pass1(std::ifstream& input){
 	}	
 }
 
+// Grammar stuff
+
+ASTNode *head;
+
 void pass2(std::ifstream& input){
+	//Build the AST tree according to grammar specification
+	ASTNode *end = nullptr;
+	head = end;
+	ASTNode *prev = nullptr;
+	std::string variable;
 	
+	// We assume that instructions have no spaces
+	
+	while (input >> variable){
+		//std::cerr << "Just read " << variable << std::endl;
+		if (variable.size() <= 1) continue;
+		if (variable[0] == '/' and variable[1] == '/'){
+			// Ignore until newline
+			char cur;
+			while (input.get(cur) and cur != '\n');
+			continue;
+		}
+		
+		if (variable[0] == '@') {
+			
+			addSymbol(variable.substr(1));
+			end = new InstructionA(variable.substr(1));	
+		}
+		else if (variable[0] == '(') {
+		
+			end = new InstructionA(variable.substr(1, variable.size()-2));
+		}
+		else{
+			// Assume it's a C instruction
+			end = new InstructionC(variable);
+		}
+	
+
+		if (!prev){
+			head = end;
+		}
+		if (prev) prev->next = end;	
+		prev = end;
+		end=end->next;
+			
+		
+	}
 }
 
 void translate(std::ofstream& output){
-	
+	while (head){
+		head->printToFile(output);
+		head = head->next;	
+	}
 }
 

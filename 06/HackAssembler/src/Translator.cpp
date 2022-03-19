@@ -3,16 +3,20 @@
 
 #include<regex>
 #include<map>
+#include <bitset>
+#include <string>
+#include <sstream>
 
-#define COMPARE_TABLE_FILE "compare_table.txt"
 
 
-void InstructionA::printToFile(std::ofstream& input){
-
+void InstructionA::printToFile(std::ofstream& output){
+	std::bitset<16> result = value;
+	output << result << '\n';
 }
 
-void InstructionC::printToFile(std::ofstream& input){
-
+void InstructionC::printToFile(std::ofstream& output){
+	std::bitset<16> result = (7<<13) + (control<<9) + (dest<<3) + jmp;
+	output << result << '\n';
 }
 
 InstructionA::InstructionA(int x){
@@ -43,10 +47,43 @@ int getDest(std::string s){
 
 std::map<std::string, int> compareTable;
 
+std::string compare_table_string =
+"0 101010 "
+"1 111111 " 
+"-1 111010 " 
+"D 001100 " 
+"A 110000 " 
+"!D 001101 " 
+"!A 110001 " 
+"-D 001111 " 
+"-A 110011 " 
+
+"D+1 011111 " 
+"1+D 011111 " 
+
+"A+1 110111 " 
+"1+A 110111 " 
+
+"D-1 001110 " 
+"A-1 110010 " 
+
+"D+A 000010 " 
+"A+D 0000100 " 
+
+"D-A 010011 "
+"A-D 000111 "
+
+"D&A 000000 "
+"A&D 000000 "
+
+"D|A 010101 "
+"A|D 010101 ";
+
 void initCompareTable(){
-	std::ifstream input(COMPARE_TABLE_FILE);
-	
+	std::istringstream input(compare_table_string);
+
 	std::string s, value;
+	
 	while (input >> s >> value){
 		compareTable[s] = std::stoi(value, nullptr, 2);
 	}
@@ -86,8 +123,8 @@ InstructionC::InstructionC(std::string s){
 	if (hasEq and hasBreak){
 		// des = cmp; jmp
 		std::string pt1 = s.substr(0,s.find("="));
-		std::string pt2 = s.substr(s.find("="), s.find(";"));
-		std::string pt3 = s.substr(s.find(";"));
+		std::string pt2 = s.substr(s.find("=")+1, s.find(";"));
+		std::string pt3 = s.substr(s.find(";")+1);
 
 		dest = getDest(pt1);
 		control = getCmp(pt2);
@@ -96,7 +133,7 @@ InstructionC::InstructionC(std::string s){
 	else if (hasEq){
 		//dest = cmp
 		std::string pt1 = s.substr(0, s.find("="));
-		std::string pt2 = s.substr(s.find("="));
+		std::string pt2 = s.substr(s.find("=")+1);
 
 		dest = getDest(pt1);
 		control = getCmp(pt2);
@@ -104,7 +141,7 @@ InstructionC::InstructionC(std::string s){
 	else if (hasBreak){
 		// cmp; jmp
 		std::string pt1 = s.substr(0, s.find(";"));
-		std::string pt2 = s.substr(s.find(";"));
+		std::string pt2 = s.substr(s.find(";")+1);
 
 		control = getCmp(pt1);
 		jmp = getJump(pt2);

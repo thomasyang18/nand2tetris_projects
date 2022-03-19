@@ -3,7 +3,7 @@ CC = g++
 
 SRCDIR = src
 OBJDIR = bin
-TARGET = $(OBJDIR)/HackAssembler
+TARGET = Assembler
 
 src = $(wildcard $(SRCDIR)/*.cpp)
 obj = $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(src))
