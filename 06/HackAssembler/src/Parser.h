@@ -7,7 +7,6 @@
 // This is the first pass through to get Labels 
 void pass1(std::ifstream input);
 
-
 // Second pass through gets symbols, and builds the AST
 void pass2(std::ifstream input);
 

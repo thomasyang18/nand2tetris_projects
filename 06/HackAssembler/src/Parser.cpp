@@ -1,5 +1,5 @@
 #include "Parser.h"
-#include "ASTNode.h"
+#include "Translator.h"
 
 
 

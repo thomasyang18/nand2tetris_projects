@@ -1,5 +1,5 @@
-#ifndef __AST_NODE_
-#define __AST_NODE_
+#ifndef __TRANSLATOR_HEADER_
+#define __TRANSLATOR_HEADER_
 
 #include<string>
 #include<iostream>
@@ -7,11 +7,8 @@
 
 class ASTNode{
 	public:
-		// prints 0 + 15 bit integer to the stream
-		void printToFile(std::ofstream);
-	protected:
 		ASTNode *next;
-	
+		virtual void printToFile(std::ofstream output) = 0;
 };
 
 class InstructionA: public ASTNode{
@@ -19,6 +16,7 @@ class InstructionA: public ASTNode{
 		// methods to convert X into a 15 bit integer
 		InstructionA(int x);
 		InstructionA(std::string s);
+		void printToFile(std::ofstream output) override;
 	private:
 		int value; // label value
 };
@@ -26,8 +24,12 @@ class InstructionA: public ASTNode{
 class InstructionC: public ASTNode{
 	public:
 		InstructionC(std::string s);
+		void printToFile(std::ofstream output) override;
+	
 	private:
 		int jmp, dest, control;
 };
+
+void initCompareTable();
 
 #endif

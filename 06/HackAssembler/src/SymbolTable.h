@@ -4,7 +4,11 @@
 #include<string>
 
 void initSymbolTable();
+
+void addGotoLabel(std::string input, int line);
+
 void addSymbol(std::string input);
 int getSymbol(std::string input);
+
 
 #endif

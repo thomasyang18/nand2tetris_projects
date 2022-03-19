@@ -1,1 +1,1 @@
-bin/main.o: src/main.cpp src/Parser.h src/Translator.h src/SymbolTable.h
+bin/main.o: src/main.cpp src/Parser.h src/SymbolTable.h src/Translator.h
