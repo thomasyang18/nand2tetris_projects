@@ -1,4 +1,4 @@
-#AST SPECIFICATION
+# AST SPECIFICATION
 
 @ commands can be easily parsed, it has its own block
 
