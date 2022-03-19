@@ -1,7 +1,9 @@
 # Grammar SPECIFICATION
 
 <program> := <ins_list> EOF
+  
 <ins_list> := <insA> \n <ins_list> | <insC> \n <ins_list> | \eps
+  
 <insA> := @<variable> | @<number>
 
 (variables cannot start with digits, numbers must contain only digits)
