@@ -10,4 +10,4 @@ insA := @(variable) | @(number)
 
 insC := (string)(delim)(string) | (string)(delim)(string)(delim)(string)
 
-comment := //<string>
+comment := //(string)
