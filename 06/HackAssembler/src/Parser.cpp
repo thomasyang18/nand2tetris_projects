@@ -41,7 +41,7 @@ void pass1(std::ifstream& input){
 				
 			if (label[0] >= '0' and label[0] <= '9') ERR("Labels cannot start with numbers");
 
-			addGotoLabel(label, line);
+			addGotoLabel(label, line--); // subtracting line because the \n will include this line
 
 			readingLabel = false;
 			
@@ -84,16 +84,26 @@ void pass2(std::ifstream& input){
 		}
 		
 		if (variable[0] == '@') {
-			
-			addSymbol(variable.substr(1));
-			end = new InstructionA(variable.substr(1));	
+		//	std::cerr << "adding A instruction " << std::endl;
+			variable = variable.substr(1);
+			if (variable[0] >= '0' and variable[0] <='9'){
+				end = new InstructionA(stoi(variable));
+			}	
+			else{
+				
+				addSymbol(variable);
+				end = new InstructionA(variable);
+			}
+				
 		}
 		else if (variable[0] == '(') {
-		
-			end = new InstructionA(variable.substr(1, variable.size()-2));
+			// Just a label; we processed this
+			//std::cerr << "Label here " << std::endl;
+			continue;
 		}
 		else{
 			// Assume it's a C instruction
+		//	std::cerr << "adding C instruction " << std::endl;
 			end = new InstructionC(variable);
 		}
 	

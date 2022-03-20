@@ -28,21 +28,27 @@ void initSymbolTable(){
 }
 
 void addGotoLabel(std::string input, int line){
-	if (symbolTable.find(input) != symbolTable.end()){
+	if (symbolTable.count(input)){
 		// Actually a problem this time; can't have two goto labels
 		std::cerr << "Cannot have two goto labels of the same name: " << input << " on line " << line << std::endl;
 		exit(EXIT_FAILURE);
 	}
+	//std::cerr << "Mapping label " << input << " to " << line << std::endl;
+
 	symbolTable[input] = line;
 
 }
 
 void addSymbol(std::string input){
+
 	if (symbolID >= SYMBOL_CAP){
 		std::cerr << "Exceeded Symbol Limit" << std::endl;
 		exit(EXIT_FAILURE);
 	}
-	if (symbolTable.find(input) != symbolTable.end()) return; // already have symbol
+	
+	if (symbolTable.count(input)) return; // already have symbol
+
+	//std::cerr << "Mapping " << input << " to " << symbolID << std::endl;
 	symbolTable[input] = symbolID++;
 }
 

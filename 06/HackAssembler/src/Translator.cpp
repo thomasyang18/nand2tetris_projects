@@ -15,31 +15,38 @@ void InstructionA::printToFile(std::ofstream& output){
 }
 
 void InstructionC::printToFile(std::ofstream& output){
-	std::bitset<16> result = (7<<13) + (control<<9) + (dest<<3) + jmp;
+	std::bitset<16> result = (7<<13) + (control<<6) + (dest<<3) + jmp;
 	output << result << '\n';
 }
 
 InstructionA::InstructionA(int x){
-	value = x;	
+	value = x;
+	//std::cerr << "This integer instruction has value " << value << std::endl;
 }
 
 InstructionA::InstructionA(std::string s){
-	value = getSymbol(s);	
+	value = getSymbol(s);
+	//std::cerr << "This string instruction has value " << value << std::endl;	
 }
 
-static std::string jmpArray[8] = {"null, JGT, JEQ, JGE, JLT, JNE, JLE, JMP"};
+std::string jmpArray[8] = {"null", "JGT", "JEQ", "JGE", "JLT", "JNE", "JLE", "JMP"};
 
 int getJump(std::string s){
 	for (int i = 0; i < 8; i++) if (s == jmpArray[i]) return i;
+	
+	//std::cerr << jmpArray[7] << " " << s << std::endl;
+
+	std::cerr << "Not a valid jump; assuming " << s << " is zero" << std::endl;
+	
 	return 0;
 }
 
-static std::string destOptions[3] = {"M", "D", "A"};
+std::string destOptions[3] = {"M", "D", "A"};
 
 int getDest(std::string s){
 	int ans = 0;
 	for (int i = 0; i < 3; i++){
-		ans += (s.find(destOptions[3]) != std::string::npos) & (1<<i);
+		if(s.find(destOptions[i]) != std::string::npos) ans+= (1<<i);
 	}
 
 	return ans;
@@ -92,7 +99,7 @@ void initCompareTable(){
 int getCmp(std::string s){
 	int ans = 0;
 	// If S uses M, then a =1
-	ans += (s.find("M") != std::string::npos) & (1<<6);
+	if (s.find("M") != std::string::npos) ans += (1<<6);
 	std::regex reg("M");
 	s = std::regex_replace(s, reg, "A");
 	
@@ -115,10 +122,12 @@ InstructionC::InstructionC(std::string s){
 	// cmp; jmp statement
 	
 	//Any other interpretation is flawed and must return an error
-	
+
 	bool hasEq = s.find("=") != std::string::npos;
 	bool hasBreak = s.find(";") != std::string::npos;
 	jmp = dest = control = 0;
+
+	//std::cerr << "Instruction " << s << ", " << hasEq << " " << hasBreak << std::endl;
 
 	if (hasEq and hasBreak){
 		// des = cmp; jmp
