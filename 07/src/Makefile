@@ -1,4 +1,4 @@
-CFLAGS = -MMD -MMD -Wall -Werror -fsanitize=address,undefined
+CFLAGS = -MMD -MP -Wall -Werror -fsanitize=address,undefined
  
 SRCDIR = src
 OBJDIR = bin

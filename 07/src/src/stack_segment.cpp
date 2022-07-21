@@ -20,7 +20,7 @@ std::vector<std::string> StackSegment::pop_value(int value) {
         return ret;
     }
     else if (value == 1){
-        // subtracts ptr, returns seg[ptr] in A. Used for binary op
+        // subtracts ptr, returns seg[ptr] in A. Used for a lot of things actually
         std::vector<std::string> ret;
         ret.push_back("@" + std::to_string(location));
         ret.push_back("M=M-1");
@@ -32,13 +32,16 @@ std::vector<std::string> StackSegment::pop_value(int value) {
     else throw std::invalid_argument("Stack pop value with unique code " + std::to_string(value) + " not implemented yet");
 } 
 std::vector<std::string> StackSegment::push_value(int value) {
-    // returns seg[ptr] in D, increments ptr afterwards as well
-    std::vector<std::string> ret;
-    ret.push_back("@" + std::to_string(location));
-    ret.push_back("A=M"); // following pointer; don't combine instrs
-    ret.push_back("M=D");
-    ret.push_back("@" + std::to_string(location));
-    ret.push_back("M=M+1");
-    stack_ptr++;
-    return ret;
+    if (value == -1){
+        // returns seg[ptr] in D, increments ptr afterwards as well
+        std::vector<std::string> ret;
+        ret.push_back("@" + std::to_string(location));
+        ret.push_back("A=M"); // following pointer; don't combine instrs
+        ret.push_back("M=D");
+        ret.push_back("@" + std::to_string(location));
+        ret.push_back("M=M+1");
+        stack_ptr++;
+        return ret;
+    }
+    else throw std::invalid_argument("Stack push value with unique code " + std::to_string(value) + " not implemented yet");
 } 

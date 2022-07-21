@@ -1,7 +1,7 @@
 #include "constant_segment.hpp"
 #include <stdexcept>
 
-ConstantSegment::ConstantSegment(std::string _name, int _location, int _begin, int _end){
+ConstantSegment::ConstantSegment(std::string _name){
     name = _name; // nothing else matters
 }
 

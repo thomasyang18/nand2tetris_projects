@@ -6,7 +6,7 @@
 class ConstantSegment : public MemorySegment
 {
 public:
-    ConstantSegment(std::string _name, int _location, int _begin, int _end);
+    ConstantSegment(std::string _name);
     virtual std::vector<std::string> pop_value(int value = -1) override; // not implemented
     virtual std::vector<std::string> push_value(int value = -1) override; // just returns value in D
 };

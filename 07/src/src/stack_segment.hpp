@@ -11,6 +11,7 @@ public:
     virtual std::vector<std::string> pop_value(int value = -1) override; // subtracts ptr, returns seg[ptr] in D 
     virtual std::vector<std::string> push_value(int value = -1) override; // returns seg[ptr] in D, increments ptr afterwards as well
     int stack_ptr; // actually needs to keep track of the value of the stack
+    int begin, end;
 };
 
 #endif

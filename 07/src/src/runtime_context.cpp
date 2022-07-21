@@ -2,18 +2,19 @@
 #include "constant_segment.hpp"
 #include "static_segment.hpp"
 #include "stack_segment.hpp"
+#include "baseless_segment.hpp"
 #include <stdexcept>
 
 RuntimeContext::RuntimeContext(){
     add_segment(std::shared_ptr<StackSegment>(new StackSegment("stack", 0, 256, 2047)));
-    add_segment(std::shared_ptr<MemorySegment>(new MemorySegment("local", 0, 0, 0)));
-    add_segment(std::shared_ptr<MemorySegment>(new MemorySegment("arg", 0, 0, 0)));
-    add_segment(std::shared_ptr<MemorySegment>(new MemorySegment("this", 0, 0, 0)));
-    add_segment(std::shared_ptr<MemorySegment>(new MemorySegment("that", 0, 0, 0)));
-    add_segment(std::shared_ptr<ConstantSegment>(new ConstantSegment("constant", -1, -1,-1)));
-    add_segment(std::shared_ptr<StaticSegment>(new StaticSegment("static", 0, 16,255)));
-    add_segment(std::shared_ptr<MemorySegment>(new MemorySegment("pointer", 0, 0,0)));
-    add_segment(std::shared_ptr<MemorySegment>(new MemorySegment("temp", 0, 0,0)));
+    add_segment(std::shared_ptr<MemorySegment>(new MemorySegment("local", 1)));
+    add_segment(std::shared_ptr<MemorySegment>(new MemorySegment("argument", 2)));
+    add_segment(std::shared_ptr<MemorySegment>(new MemorySegment("this", 3)));
+    add_segment(std::shared_ptr<MemorySegment>(new MemorySegment("that", 4)));
+    add_segment(std::shared_ptr<ConstantSegment>(new ConstantSegment("constant")));
+    add_segment(std::shared_ptr<StaticSegment>(new StaticSegment("static", 16,255)));
+    add_segment(std::shared_ptr<BaselessSegment>(new BaselessSegment("pointer", 3,4)));
+    add_segment(std::shared_ptr<BaselessSegment>(new BaselessSegment("temp", 5,12)));
 }
 
 
@@ -42,18 +43,32 @@ std::string RuntimeContext::new_temp_label(){
     return "TEMP_LABEL_" + std::to_string(temp_labels++);
 }
 
+std::vector<std::string> swap_registers(){
+    std::vector<std::string> ret;
+    ret.push_back("D=A-D");
+    ret.push_back("A=D-A");
+    ret.push_back("D=D-A");
+    ret.push_back("A=-A");
+    return ret;
+}
+
+
 std::vector<std::string> RuntimeContext::do_instr(std::shared_ptr<Instr> instr){
     
     std::vector<std::string> ret;
     
     if (auto op = std::dynamic_pointer_cast<StackOperation>(instr)){
+        if (!name2seg.count(op->type)) throw std::invalid_argument("Unknown memory segment name: " + op->type);
+        
         if (op->push == "push"){
             push_all_back(ret, name2seg[op->type]->push_value(op->val));
             push_all_back(ret, name2seg["stack"]->push_value());
         }
         else if (op->push == "pop"){
-            push_all_back(ret, name2seg["stack"]->pop_value());
             push_all_back(ret, name2seg[op->type]->pop_value(op->val));
+            push_all_back(ret, name2seg["stack"]->pop_value(1));
+            push_all_back(ret, swap_registers());
+            ret.push_back("M=D");
         }
         else throw std::invalid_argument("Stack instruction not implemented");
     }
