@@ -7,6 +7,7 @@
 class MemorySegment
 {
 public:
+    MemorySegment();
     MemorySegment(std::string _name, int _location, int _begin, int _end);
     std::string name;
     virtual std::vector<std::string> pop_value(int value = -1); // returns seg[location+value] in D 

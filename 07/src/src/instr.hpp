@@ -22,18 +22,16 @@ public:
 
 class BinaryOp: public Instr
 {
-private:
+public :
     std::string opName;
-public:
     BinaryOp(std::string _opName);
     std::vector<std::string> toString() override;
 };
 
 class UnaryOp: public Instr
 {
-private:
+public :
     std::string opName;
-public:
     UnaryOp(std::string _opName);
     std::vector<std::string> toString() override;
 };

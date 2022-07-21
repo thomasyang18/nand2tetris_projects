@@ -5,19 +5,20 @@
 #include <stdexcept>
 
 RuntimeContext::RuntimeContext(){
-    add_segment(StackSegment("stack", 0, 256, 2047));
-    add_segment(MemorySegment("local", 0, 0,0));
-    add_segment(MemorySegment("arg", 0, 0, 0));
-    add_segment(MemorySegment("this", 0, 0, 0));
-    add_segment(MemorySegment("that", 0, 0, 0));
-    add_segment(ConstantSegment("constant", -1, -1,-1));
-    add_segment(StaticSegment("static", 0, 16,255));
-    add_segment(MemorySegment("pointer", 0, 0,0));
-    add_segment(MemorySegment("temp", 0, 0,0));
+    add_segment(std::shared_ptr<StackSegment>(new StackSegment("stack", 0, 256, 2047)));
+    add_segment(std::shared_ptr<MemorySegment>(new MemorySegment("local", 0, 0, 0)));
+    add_segment(std::shared_ptr<MemorySegment>(new MemorySegment("arg", 0, 0, 0)));
+    add_segment(std::shared_ptr<MemorySegment>(new MemorySegment("this", 0, 0, 0)));
+    add_segment(std::shared_ptr<MemorySegment>(new MemorySegment("that", 0, 0, 0)));
+    add_segment(std::shared_ptr<ConstantSegment>(new ConstantSegment("constant", -1, -1,-1)));
+    add_segment(std::shared_ptr<StaticSegment>(new StaticSegment("static", 0, 16,255)));
+    add_segment(std::shared_ptr<MemorySegment>(new MemorySegment("pointer", 0, 0,0)));
+    add_segment(std::shared_ptr<MemorySegment>(new MemorySegment("temp", 0, 0,0)));
 }
 
-void RuntimeContext::add_segment(MemorySegment segment){
-    name2seg[segment.name] = segment;
+
+void RuntimeContext::add_segment(std::shared_ptr<MemorySegment> ptr){
+    name2seg[ptr->name] = ptr;
 }
 
 std::string to_comment(std::shared_ptr<Instr> instr){
@@ -29,21 +30,101 @@ std::string to_comment(std::shared_ptr<Instr> instr){
     return res;
 }
 
+void push_all_back(std::vector<std::string> &here, std::vector<std::string> there){
+    for (auto &instr: there) here.push_back(instr);
+}
+
+constexpr unsigned int hash(const char *s, int off = 0){                        
+    return !s[off] ? 5381 : (hash(s, off+1)*33) ^ s[off];                           
+} 
+
+std::string RuntimeContext::new_temp_label(){
+    return "TEMP_LABEL_" + std::to_string(temp_labels++);
+}
+
 std::vector<std::string> RuntimeContext::do_instr(std::shared_ptr<Instr> instr){
     
     std::vector<std::string> ret;
+    
     if (auto op = std::dynamic_pointer_cast<StackOperation>(instr)){
-
+        if (op->push == "push"){
+            push_all_back(ret, name2seg[op->type]->push_value(op->val));
+            push_all_back(ret, name2seg["stack"]->push_value());
+        }
+        else if (op->push == "pop"){
+            push_all_back(ret, name2seg["stack"]->pop_value());
+            push_all_back(ret, name2seg[op->type]->pop_value(op->val));
+        }
+        else throw std::invalid_argument("Stack instruction not implemented");
     }
     else if (auto op = std::dynamic_pointer_cast<BinaryOp>(instr)){
+        push_all_back(ret, name2seg["stack"]->pop_value()); // puts y in place
+        // do a fancy instruction that saves to A register
+        push_all_back(ret, name2seg["stack"]->pop_value(1));
+        switch(hash(op->opName.c_str())){
+            case hash("add"):
+            ret.push_back("D=D+A");
+            break;
+            case hash("sub"):
+            ret.push_back("D=A-D");
+            break;
+            // 0 is false, -1 is true
+            case hash("eq"):
+            case hash("gt"):
+            case hash("lt"):
+            {
+                ret.push_back("D=A-D");
+                std::string new_label = new_temp_label();
+                std::string new_label_2 = new_temp_label();
+                ret.push_back("@" + new_label);
+                switch(hash(op->opName.c_str())){
+                    // if it's true, i wanna jump
+                    case hash("eq"):
+                    ret.push_back("D=D;JEQ");
+                    break;
+                    case hash("gt"):
+                    ret.push_back("D=D;JGT");
+                    break;
+                    case hash("lt"):
+                    ret.push_back("D=D;JLT");
+                    break;
+                }
+                ret.push_back("@" + new_label_2);
+                ret.push_back("D=0;JMP"); // will make it false
+                ret.push_back("(" + new_label +")");
+                ret.push_back("D=-1"); // will make it true
+                ret.push_back("(" + new_label_2 + ")");
+            }
+            break;
+            case hash("and"):
+            ret.push_back("D=D&A");
+            break;
+            case hash("or"):
+            ret.push_back("D=D|A");
+            break;
+            
+            default:
+            throw std::invalid_argument("Binary Op not implemented");
+        }
 
+        push_all_back(ret, name2seg["stack"]->push_value());
     }
     else if (auto op = std::dynamic_pointer_cast<UnaryOp>(instr)){
-        
+        push_all_back(ret, name2seg["stack"]->pop_value());
+        switch(hash(op->opName.c_str())){
+            case hash("neg"):
+            ret.push_back("D=-D");
+            break;
+            case hash("not"):
+            ret.push_back("D=!D");
+            break;
+            default:
+            throw std::invalid_argument("Unary Op not implemented");
+        }
+        push_all_back(ret, name2seg["stack"]->push_value());
+
     }
-    else{
-        throw std::invalid_argument("Instruction not implemented");
-    }
+    else throw std::invalid_argument("Instruction not implemented");
     
     return ret;
 }

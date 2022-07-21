@@ -19,7 +19,9 @@ int main(int argc, char **argv ){
 
         RuntimeContext ctxt;        
         for (auto &instr: ans){
-            ctxt.do_instr(instr);
+            for (auto &text: ctxt.do_instr(instr)){
+                std::cout << text << std::endl;
+            }
         }
     }
 }

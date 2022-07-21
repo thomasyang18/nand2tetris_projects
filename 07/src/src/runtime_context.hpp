@@ -16,9 +16,11 @@ public:
     RuntimeContext();
     // Returns corresponding assembly instructions as well
     std::vector<std::string> do_instr(std::shared_ptr<Instr> instr);
+    void add_segment(std::shared_ptr<MemorySegment> ptr);
 private:
-    void add_segment(MemorySegment segment);
-    std::map<std::string, MemorySegment> name2seg;
+    std::map<std::string, std::shared_ptr<MemorySegment>> name2seg;
+    int temp_labels = 0;
+    std::string new_temp_label();
 };
 
 #endif
