@@ -1,0 +1,2 @@
+push constant 3
+pop static 50

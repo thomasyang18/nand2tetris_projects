@@ -5,14 +5,16 @@
 #include "baseless_segment.hpp"
 #include <stdexcept>
 
-RuntimeContext::RuntimeContext(){
+RuntimeContext::RuntimeContext(){}
+
+RuntimeContext::RuntimeContext(std::string _file_name){
     add_segment(std::shared_ptr<StackSegment>(new StackSegment("stack", 0, 256, 2047)));
     add_segment(std::shared_ptr<MemorySegment>(new MemorySegment("local", 1)));
     add_segment(std::shared_ptr<MemorySegment>(new MemorySegment("argument", 2)));
     add_segment(std::shared_ptr<MemorySegment>(new MemorySegment("this", 3)));
     add_segment(std::shared_ptr<MemorySegment>(new MemorySegment("that", 4)));
     add_segment(std::shared_ptr<ConstantSegment>(new ConstantSegment("constant")));
-    add_segment(std::shared_ptr<StaticSegment>(new StaticSegment("static", 16,255)));
+    add_segment(std::shared_ptr<StaticSegment>(new StaticSegment("static", 16,255, _file_name)));
     add_segment(std::shared_ptr<BaselessSegment>(new BaselessSegment("pointer", 3,4)));
     add_segment(std::shared_ptr<BaselessSegment>(new BaselessSegment("temp", 5,12)));
 }
