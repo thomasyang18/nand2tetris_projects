@@ -10,7 +10,7 @@ StackOperation::StackOperation(std::string _push, std::string _type, std::string
 }
 
 std::vector<std::string> StackOperation::toString(){
-    return {type, push, std::to_string(val)};    
+    return {push, type, std::to_string(val)};    
 }
 
 BinaryOp::BinaryOp(std::string _opName){

@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Thu Jul 21 13:07:26 2022
+# Make data base, printed on Thu Jul 21 18:28:30 2022
 
 # Variables
 
@@ -139,7 +139,7 @@ GNOME_DESKTOP_SESSION_ID = this-is-deprecated
 # environment
 MAKELEVEL := 0
 # environment
-PLATFORMIO_PATH = /home/thomas/.platformio/python3/bin:/home/thomas/.opam/4.11.1/bin:/home/linuxbrew/.linuxbrew/bin:/home/thomas/.yarn/bin:/home/thomas/.local/bin:/home/thomas/.local/bin:/home/thomas/.yarn/bin:/home/linuxbrew/.linuxbrew/bin:/home/thomas/.cargo/bin:/home/thomas/.opam/4.11.1/bin:/home/linuxbrew/.linuxbrew/bin:/home/thomas/.yarn/bin:/home/thomas/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+PLATFORMIO_PATH = /home/thomas/.platformio/penv/bin:/home/thomas/.platformio/penv:/home/thomas/.platformio/python3/bin:/home/thomas/.opam/4.11.1/bin:/home/linuxbrew/.linuxbrew/bin:/home/thomas/.yarn/bin:/home/thomas/.local/bin:/home/thomas/.local/bin:/home/thomas/.yarn/bin:/home/linuxbrew/.linuxbrew/bin:/home/thomas/.cargo/bin:/home/thomas/.opam/4.11.1/bin:/home/linuxbrew/.linuxbrew/bin:/home/thomas/.yarn/bin:/home/thomas/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 # default
 MAKE = $(MAKE_COMMAND)
 # default
@@ -279,6 +279,6 @@ GNUmakefile:
 # strcache performance: lookups = 17 / hit rate = 17%
 # hash-table stats:
 # Load=14/8192=0%, Rehash=0, Collisions=1/17=6%
-# Finished Make data base on Thu Jul 21 13:07:26 2022
+# Finished Make data base on Thu Jul 21 18:28:30 2022
 
  

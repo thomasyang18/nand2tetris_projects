@@ -58,6 +58,7 @@ std::vector<std::string> swap_registers(){
 std::vector<std::string> RuntimeContext::do_instr(std::shared_ptr<Instr> instr){
     
     std::vector<std::string> ret;
+    ret.push_back(to_comment(instr));
     
     if (auto op = std::dynamic_pointer_cast<StackOperation>(instr)){
         if (!name2seg.count(op->type)) throw std::invalid_argument("Unknown memory segment name: " + op->type);
