@@ -1,0 +1,604 @@
+make all --print-data-base --no-builtin-variables --no-builtin-rules --question
+# GNU Make 4.2.1
+# Built for x86_64-pc-linux-gnu
+# Copyright (C) 1988-2016 Free Software Foundation, Inc.
+# License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+# This is free software: you are free to change and redistribute it.
+# There is NO WARRANTY, to the extent permitted by law.
+
+# Make data base, printed on Wed Aug  3 16:27:03 2022
+
+# Variables
+
+# 'override' directive
+GNUMAKEFLAGS := 
+# automatic
+<D = $(patsubst %/,%,$(dir $<))
+# automatic
+?F = $(notdir $?)
+# environment
+DESKTOP_SESSION = ubuntu
+# environment
+OPAM_SWITCH_PREFIX = /home/thomas/.opam/4.11.1
+# default
+.SHELLFLAGS := -c
+# environment
+OCAML_TOPLEVEL_PATH = /home/thomas/.opam/4.11.1/lib/toplevel
+# environment
+XDG_SESSION_CLASS = user
+# environment
+XDG_SESSION_TYPE = x11
+# makefile (from 'Makefile', line 5)
+ 
+TARGET = $(OBJDIR)/vm_compiler
+# automatic
+?D = $(patsubst %/,%,$(dir $?))
+# environment
+IM_CONFIG_PHASE = 1
+# environment
+PLATFORMIO_IDE = 2.5.1
+# automatic
+@D = $(patsubst %/,%,$(dir $@))
+# environment
+XAUTHORITY = /run/user/1000/gdm/Xauthority
+# environment
+GDMSESSION = ubuntu
+# environment
+XMODIFIERS = @im=ibus
+# makefile
+CURDIR := /home/thomas/nand2tetris/nand2tetris_projects/08/src
+# makefile
+SHELL = /bin/sh
+# environment
+VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
+# environment
+_ = /usr/share/code/code
+# makefile (from 'Makefile', line 1)
+CFLAGS = -std=c++17 -MMD -MP -Wall -Werror -fsanitize=address,undefined
+# environment
+JOURNAL_STREAM = 8:51653
+# environment
+XDG_CONFIG_DIRS = /etc/xdg/xdg-ubuntu:/etc/xdg
+# makefile (from 'bin/codegen.d', line 1)
+MAKEFILE_LIST :=  Makefile bin/static_segment.d bin/baseless_segment.d bin/constant_segment.d bin/memory_segment.d bin/runtime_context.d bin/lexer.d bin/stack_segment.d bin/instr.d bin/parser.d bin/main.d bin/codegen.d
+# automatic
+@F = $(notdir $@)
+# environment
+GIO_LAUNCHED_DESKTOP_FILE = /usr/share/applications/code.desktop
+# environment
+QT_IM_MODULE = ibus
+# environment
+USERNAME = thomas
+# environment
+XDG_DATA_DIRS = /usr/share/ubuntu:/home/thomas/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop
+# environment
+DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
+# environment
+MANAGERPID = 1855
+# environment
+LESSOPEN = | /usr/bin/lesspipe %s
+# environment
+VSCODE_CWD = /home/thomas
+# default
+MAKE_HOST := x86_64-pc-linux-gnu
+# environment
+NO_PROXY = 127.0.0.1
+# environment
+GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
+# environment
+SESSION_MANAGER = local/thomas-IdeaPad-3-15ALC6:@/tmp/.ICE-unix/2354,unix/thomas-IdeaPad-3-15ALC6:/tmp/.ICE-unix/2354
+# environment
+XDG_RUNTIME_DIR = /run/user/1000
+# makefile (from 'Makefile', line 9)
+dep = $(obj:.o=.d)
+# environment
+XDG_MENU_PREFIX = gnome-
+# environment
+ELECTRON_RUN_AS_NODE = 1
+# environment
+INVOCATION_ID = 6bc2e66b64a24eb091b3381a99bebd72
+# default
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
+# environment
+LS_COLORS = 
+# environment
+XDG_SESSION_DESKTOP = ubuntu
+# environment
+SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
+# environment
+GIO_LAUNCHED_DESKTOP_FILE_PID = 4438
+# automatic
+%F = $(notdir $%)
+# environment
+DISPLAY = :0
+# makefile (from 'Makefile', line 3)
+SRCDIR = src
+# environment
+PWD = /home/thomas/nand2tetris/nand2tetris_projects/08/src
+# makefile (from 'Makefile', line 7)
+src = $(wildcard $(SRCDIR)/*.cpp)
+# default
+.LOADED := 
+# environment
+SSH_AGENT_PID = 2279
+# environment
+ORIGINAL_XDG_CURRENT_DESKTOP = ubuntu:GNOME
+# environment
+GTK_MODULES = gail:atk-bridge
+# environment
+MANPATH = :/home/thomas/.opam/4.11.1/man:/home/thomas/.opam/4.11.1/man
+# environment
+VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
+# environment
+HOME = /home/thomas
+# environment
+LESSCLOSE = /usr/bin/lesspipe %s %s
+# environment
+VSCODE_CODE_CACHE_PATH = /home/thomas/.config/Code/CachedData/b06ae3b2d2dbfe28bca3134cc6be65935cdfea6a
+# environment
+LOGNAME = thomas
+# environment
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# environment
+GNOME_DESKTOP_SESSION_ID = this-is-deprecated
+# automatic
+^D = $(patsubst %/,%,$(dir $^))
+# makefile (from 'Makefile', line 8)
+obj = $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(src))
+# environment
+MAKELEVEL := 0
+# environment
+PLATFORMIO_PATH = /home/thomas/.platformio/penv/bin:/home/thomas/.platformio/penv:/home/thomas/.platformio/python3/bin:/home/thomas/.opam/4.11.1/bin:/home/linuxbrew/.linuxbrew/bin:/home/thomas/.yarn/bin:/home/thomas/.local/bin:/home/thomas/.local/bin:/home/thomas/.yarn/bin:/home/linuxbrew/.linuxbrew/bin:/home/thomas/.cargo/bin:/home/thomas/.opam/4.11.1/bin:/home/linuxbrew/.linuxbrew/bin:/home/thomas/.yarn/bin:/home/thomas/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+# default
+MAKE = $(MAKE_COMMAND)
+# default
+MAKECMDGOALS := all
+# environment
+PATH = /home/thomas/.opam/4.11.1/bin:/home/linuxbrew/.linuxbrew/bin:/home/thomas/.yarn/bin:/home/thomas/.local/bin:/home/thomas/.local/bin:/home/thomas/.yarn/bin:/home/linuxbrew/.linuxbrew/bin:/home/thomas/.cargo/bin:/home/thomas/.opam/4.11.1/bin:/home/linuxbrew/.linuxbrew/bin:/home/thomas/.yarn/bin:/home/thomas/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+# environment
+SHLVL = 0
+# environment
+GNOME_SHELL_SESSION_MODE = ubuntu
+# default
+MAKE_VERSION := 4.2.1
+# environment
+USER = thomas
+# environment
+CAML_LD_LIBRARY_PATH = /home/thomas/.opam/4.11.1/lib/stublibs:/home/thomas/.opam/4.11.1/lib/ocaml/stublibs:/home/thomas/.opam/4.11.1/lib/ocaml
+# makefile
+.DEFAULT_GOAL := all
+# environment
+XDG_CURRENT_DESKTOP = Unity
+# automatic
+%D = $(patsubst %/,%,$(dir $%))
+# default
+MAKE_COMMAND := make
+# default
+.VARIABLES := 
+# automatic
+*F = $(notdir $*)
+# environment
+VSCODE_IPC_HOOK = /run/user/1000/vscode-6002357e-1.69.1-main.sock
+# makefile
+MAKEFLAGS = pqrR
+# environment
+MFLAGS = -pqrR
+# automatic
+*D = $(patsubst %/,%,$(dir $*))
+# automatic
++D = $(patsubst %/,%,$(dir $+))
+# environment
+GDK_BACKEND = x11
+# automatic
++F = $(notdir $+)
+# environment
+QT_ACCESSIBILITY = 1
+# default
+MAKEFILES := 
+# automatic
+<F = $(notdir $<)
+# environment
+PLATFORMIO_CALLER = vscode
+# makefile (from 'Makefile', line 4)
+OBJDIR = bin
+# environment
+LC_ALL = C
+# environment
+GJS_DEBUG_TOPICS = JS ERROR;JS LOG
+# automatic
+^F = $(notdir $^)
+# default
+SUFFIXES := 
+# environment
+CHROME_DESKTOP = code-url-handler.desktop
+# environment
+WINDOWPATH = 2
+# default
+.INCLUDE_DIRS = /usr/include /usr/local/include /usr/include
+# environment
+GJS_DEBUG_OUTPUT = stderr
+# default
+.RECIPEPREFIX := 
+# environment
+LANG = C
+# environment
+VSCODE_PID = 4438
+# variable set hash-table stats:
+# Load=107/1024=10%, Rehash=0, Collisions=26/172=15%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+# . (device 66309, inode 133272): 7 files, no impossibilities.
+# src (device 66309, inode 133325): 23 files, no impossibilities.
+
+# 30 files, no impossibilities in 2 directories.
+
+# Implicit Rules
+
+bin/%.o: src/%.cpp
+#  recipe to execute (from 'Makefile', line 23):
+	g++ $(CFLAGS) -c $< -o $@
+
+# 1 implicit rules, 0 (0.0%) terminal.
+
+# Files
+
+bin/memory_segment.o: src/memory_segment.cpp src/memory_segment.hpp
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+src/baseless_segment.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+bin/stack_segment.d:
+#  Implicit rule search has been done.
+#  Last modified 2022-08-03 16:06:09.770874379
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+src/constant_segment.cpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+src/codegen.cpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+src/memory_segment.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+src/runtime_context.cpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+all:
+#  Command line target.
+#  Implicit rule search has not been done.
+#  Implicit/static pattern stem: ''
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# automatic
+ 
+# @ := all
+# automatic
+# % := 
+# automatic
+# * := 
+# automatic
+# + := 
+# automatic
+# | := 
+# automatic
+# < := 
+# automatic
+# ^ := 
+# automatic
+# ? := 
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=1/11=9%
+#  recipe to execute (from 'Makefile', line 12):
+	make vm_compiler
+
+.PHONY: clean prints vm_compiler
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+bin/constant_segment.o: src/constant_segment.cpp src/constant_segment.hpp src/memory_segment.hpp
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+prints:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 35):
+	echo '$(OBJDIR)'
+	echo '$(src) $(obj)'
+
+bin/codegen.o: src/codegen.cpp
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+bin/runtime_context.o: src/runtime_context.cpp src/runtime_context.hpp src/instr.hpp src/memory_segment.hpp src/constant_segment.hpp src/static_segment.hpp src/stack_segment.hpp src/baseless_segment.hpp
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+src/constant_segment.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+src/runtime_context.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+src/stack_segment.cpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.SUFFIXES:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Makefile:
+#  Implicit rule search has been done.
+#  Last modified 2022-08-03 16:26:51.41728882
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+bin/parser.d:
+#  Implicit rule search has been done.
+#  Last modified 2022-08-03 16:06:10.930878268
+#  File has been updated.
+#  Successfully updated.
+
+bin/stack_segment.o: src/stack_segment.cpp src/stack_segment.hpp src/memory_segment.hpp
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+src/stack_segment.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+bin/instr.d:
+#  Implicit rule search has been done.
+#  Last modified 2022-08-03 16:06:10.114875539
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+bin/main.d:
+#  Implicit rule search has been done.
+ 
+#  Last modified 2022-08-03 16:26:59.897428096
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+src/parser.cpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+bin/lexer.d:
+#  Implicit rule search has been done.
+#  Last modified 2022-08-03 16:06:09.34287293
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+src/instr.cpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+bin/static_segment.d:
+#  Implicit rule search has been done.
+#  Last modified 2022-08-03 16:06:06.246862213
+#  File has been updated.
+#  Successfully updated.
+
+bin/parser.o: src/parser.cpp src/parser.hpp src/instr.hpp src/lexer.hpp
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+bin/vm_compiler: bin/static_segment.o bin/baseless_segment.o bin/constant_segment.o bin/memory_segment.o bin/runtime_context.o bin/lexer.o bin/stack_segment.o bin/instr.o bin/parser.o bin/main.o bin/codegen.o
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 20):
+	g++ $(CFLAGS) $^ -o $@
+
+clean:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 30):
+	rm -r -f $(OBJDIR) \
+	
+	rm -f $(obj) $(TARGET) $(dep)
+
+src/parser.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+bin/baseless_segment.d:
+#  Implicit rule search has been done.
+#  Last modified 2022-08-03 16:06:06.654863649
+#  File has been updated.
+#  Successfully updated.
+
+bin/instr.o: src/instr.cpp src/instr.hpp
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+src/main.cpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+vm_compiler:
+ 
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 15):
+	mkdir -p $(OBJDIR) \
+	
+	make $(TARGET)
+
+# Not a target:
+bin/memory_segment.d:
+#  Implicit rule search has been done.
+#  Last modified 2022-08-03 16:06:07.462866471
+#  File has been updated.
+#  Successfully updated.
+
+src/instr.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+src/lexer.cpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+bin/main.o: src/main.cpp src/lexer.hpp src/parser.hpp src/instr.hpp src/runtime_context.hpp src/memory_segment.hpp
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+src/static_segment.cpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+bin/constant_segment.d:
+#  Implicit rule search has been done.
+#  Last modified 2022-08-03 16:06:07.058865068
+#  File has been updated.
+#  Successfully updated.
+
+bin/lexer.o: src/lexer.cpp src/lexer.hpp
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+bin/codegen.d:
+#  Implicit rule search has been done.
+#  Last modified 2022-08-03 16:06:17.922900492
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+src/baseless_segment.cpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+bin/runtime_context.d:
+#  Implicit rule search has been done.
+ 
+#  Last modified 2022-08-03 16:06:08.702870749
+#  File has been updated.
+#  Successfully updated.
+
+bin/static_segment.o: src/static_segment.cpp src/static_segment.hpp src/memory_segment.hpp
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+src/lexer.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+src/memory_segment.cpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+src/static_segment.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+bin/baseless_segment.o: src/baseless_segment.cpp src/baseless_segment.hpp src/memory_segment.hpp
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# files hash-table stats:
+# Load=51/1024=5%, Rehash=0, Collisions=0/164=0%
+# VPATH Search Paths
+
+# No 'vpath' search paths.
+
+# No general ('VPATH' variable) search path.
+
+# strcache buffers: 1 (0) / strings = 82 / storage = 1271 B / avg = 15 B
+# current buf: size = 8162 B / used = 1271 B / count = 82 / avg = 15 B
+
+# strcache performance: lookups = 202 / hit rate = 59%
+# hash-table stats:
+ 
+# Load=82/8192=1%, Rehash=0, Collisions=2/202=1%
+# Finished Make data base on Wed Aug  3 16:27:03 2022
+
+ 
