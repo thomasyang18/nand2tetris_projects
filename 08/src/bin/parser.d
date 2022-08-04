@@ -1,7 +1,8 @@
-bin/parser.o: src/parser.cpp src/parser.hpp src/instr.hpp src/lexer.hpp
+bin/parser.o: src/parser.cpp src/parser.hpp src/instructions/instr.hpp \
+ src/lexer.hpp
 
 src/parser.hpp:
 
-src/instr.hpp:
+src/instructions/instr.hpp:
 
 src/lexer.hpp:

@@ -1,8 +1,9 @@
 #include "runtime_context.hpp"
-#include "constant_segment.hpp"
-#include "static_segment.hpp"
-#include "stack_segment.hpp"
-#include "baseless_segment.hpp"
+#include "memory_segments/constant_segment.hpp"
+#include "memory_segments/static_segment.hpp"
+#include "memory_segments/stack_segment.hpp"
+#include "memory_segments/baseless_segment.hpp"
+#include "instructions/stack_instrs.hpp"
 #include <stdexcept>
 
 RuntimeContext::RuntimeContext(){}

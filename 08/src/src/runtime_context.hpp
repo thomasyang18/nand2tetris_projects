@@ -7,8 +7,8 @@
 #include <memory>
 #include <iostream>
 #include <fstream>
-#include "instr.hpp"
-#include "memory_segment.hpp"
+#include "instructions/instr.hpp"
+#include "memory_segments/memory_segment.hpp"
 
 class RuntimeContext
 {

@@ -4,9 +4,10 @@ SRCDIR = src
 OBJDIR = bin
 TARGET = $(OBJDIR)/vm_compiler
 
-src = $(wildcard $(SRCDIR)/*.cpp)
+src = $(shell find $(SRCDIR) -name '*.cpp')
 obj = $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(src))
 dep = $(obj:.o=.d)
+dirs = $(sort $(dir $(obj)))
 
 all:
 	make vm_compiler
@@ -14,6 +15,8 @@ all:
 vm_compiler:
 	mkdir -p $(OBJDIR) \
 	
+	mkdir -p $(dirs) \
+
 	make $(TARGET)
 
 $(TARGET): $(obj)
@@ -32,5 +35,4 @@ clean:
 	rm -f $(obj) $(TARGET) $(dep)
 
 prints:
-	echo '$(OBJDIR)'
-	echo '$(src) $(obj)'
+	echo '$(src)'

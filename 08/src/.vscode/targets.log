@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Wed Aug  3 16:27:03 2022
+# Make data base, printed on Wed Aug  3 20:02:48 2022
 
 # Variables
 
@@ -21,6 +21,7 @@ DESKTOP_SESSION = ubuntu
 # environment
 OPAM_SWITCH_PREFIX = /home/thomas/.opam/4.11.1
 # default
+ 
 .SHELLFLAGS := -c
 # environment
 OCAML_TOPLEVEL_PATH = /home/thomas/.opam/4.11.1/lib/toplevel
@@ -29,7 +30,6 @@ XDG_SESSION_CLASS = user
 # environment
 XDG_SESSION_TYPE = x11
 # makefile (from 'Makefile', line 5)
- 
 TARGET = $(OBJDIR)/vm_compiler
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
@@ -59,8 +59,8 @@ CFLAGS = -std=c++17 -MMD -MP -Wall -Werror -fsanitize=address,undefined
 JOURNAL_STREAM = 8:51653
 # environment
 XDG_CONFIG_DIRS = /etc/xdg/xdg-ubuntu:/etc/xdg
-# makefile (from 'bin/codegen.d', line 1)
-MAKEFILE_LIST :=  Makefile bin/static_segment.d bin/baseless_segment.d bin/constant_segment.d bin/memory_segment.d bin/runtime_context.d bin/lexer.d bin/stack_segment.d bin/instr.d bin/parser.d bin/main.d bin/codegen.d
+# makefile (from 'bin/memory_segments/baseless_segment.d', line 1)
+MAKEFILE_LIST :=  Makefile bin/lexer.d bin/parser.d bin/instructions/instr.d bin/memory_segments/stack_segment.d bin/memory_segments/constant_segment.d bin/memory_segments/static_segment.d bin/memory_segments/memory_segment.d bin/memory_segments/baseless_segment.d
 # automatic
 @F = $(notdir $@)
 # environment
@@ -113,10 +113,12 @@ GIO_LAUNCHED_DESKTOP_FILE_PID = 4438
 DISPLAY = :0
 # makefile (from 'Makefile', line 3)
 SRCDIR = src
+# makefile (from 'Makefile', line 10)
+dirs = $(sort $(dir $(obj)))
 # environment
 PWD = /home/thomas/nand2tetris/nand2tetris_projects/08/src
 # makefile (from 'Makefile', line 7)
-src = $(wildcard $(SRCDIR)/*.cpp)
+src = $(shell find $(SRCDIR) -name '*.cpp')
 # default
 .LOADED := 
 # environment
@@ -195,6 +197,8 @@ GDK_BACKEND = x11
 +F = $(notdir $+)
 # environment
 QT_ACCESSIBILITY = 1
+# 'override' directive
+.SHELLSTATUS := 0
 # default
 MAKEFILES := 
 # automatic
@@ -226,7 +230,7 @@ LANG = C
 # environment
 VSCODE_PID = 4438
 # variable set hash-table stats:
-# Load=107/1024=10%, Rehash=0, Collisions=26/172=15%
+# Load=109/1024=11%, Rehash=0, Collisions=26/175=15%
 
 # Pattern-specific Variable Values
 
@@ -235,56 +239,27 @@ VSCODE_PID = 4438
 # Directories
 
 # . (device 66309, inode 133272): 7 files, no impossibilities.
-# src (device 66309, inode 133325): 23 files, no impossibilities.
+# src (device 66309, inode 133325): No files, no impossibilities so far.
 
-# 30 files, no impossibilities in 2 directories.
+# 7 files, no impossibilities in 2 directories.
 
 # Implicit Rules
 
 bin/%.o: src/%.cpp
-#  recipe to execute (from 'Makefile', line 23):
+#  recipe to execute (from 'Makefile', line 26):
 	g++ $(CFLAGS) -c $< -o $@
 
 # 1 implicit rules, 0 (0.0%) terminal.
 
 # Files
 
-bin/memory_segment.o: src/memory_segment.cpp src/memory_segment.hpp
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-src/baseless_segment.hpp:
+src/memory_segments/constant_segment.hpp:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
 
 # Not a target:
-bin/stack_segment.d:
-#  Implicit rule search has been done.
-#  Last modified 2022-08-03 16:06:09.770874379
-#  File has been updated.
-#  Successfully updated.
-
-# Not a target:
-src/constant_segment.cpp:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-# Not a target:
-src/codegen.cpp:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-src/memory_segment.hpp:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-# Not a target:
-src/runtime_context.cpp:
+src/memory_segments/stack_segment.cpp:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -294,10 +269,10 @@ all:
 #  Implicit rule search has not been done.
 #  Implicit/static pattern stem: ''
 #  File does not exist.
+ 
 #  File has been updated.
 #  Needs to be updated (-q is set).
 # automatic
- 
 # @ := all
 # automatic
 # % := 
@@ -315,15 +290,16 @@ all:
 # ? := 
 # variable set hash-table stats:
 # Load=8/32=25%, Rehash=0, Collisions=1/11=9%
-#  recipe to execute (from 'Makefile', line 12):
+#  recipe to execute (from 'Makefile', line 13):
 	make vm_compiler
 
-.PHONY: clean prints vm_compiler
+# Not a target:
+src/instructions/instr.cpp:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
 
-bin/constant_segment.o: src/constant_segment.cpp src/constant_segment.hpp src/memory_segment.hpp
+.PHONY: clean prints vm_compiler
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -333,32 +309,26 @@ prints:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 35):
-	echo '$(OBJDIR)'
-	echo '$(src) $(obj)'
+#  recipe to execute (from 'Makefile', line 38):
+	echo '$(src)'
 
-bin/codegen.o: src/codegen.cpp
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-bin/runtime_context.o: src/runtime_context.cpp src/runtime_context.hpp src/instr.hpp src/memory_segment.hpp src/constant_segment.hpp src/static_segment.hpp src/stack_segment.hpp src/baseless_segment.hpp
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-src/constant_segment.hpp:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-src/runtime_context.hpp:
+bin/memory_segments/stack_segment.o: src/memory_segments/stack_segment.cpp src/memory_segments/stack_segment.hpp src/memory_segments/memory_segment.hpp
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
 
 # Not a target:
-src/stack_segment.cpp:
+bin/runtime_context.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+bin/instructions/instr.o: src/instructions/instr.cpp src/instructions/instr.hpp
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+src/memory_segments/stack_segment.hpp:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -369,44 +339,46 @@ src/stack_segment.cpp:
 #  Modification time never checked.
 #  File has not been updated.
 
+src/instructions/instr.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-03 16:26:51.41728882
+#  Last modified 2022-08-03 20:02:00.859472193
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 bin/parser.d:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-03 16:06:10.930878268
+#  Last modified 2022-08-03 20:02:27.195727726
 #  File has been updated.
 #  Successfully updated.
 
-bin/stack_segment.o: src/stack_segment.cpp src/stack_segment.hpp src/memory_segment.hpp
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-src/stack_segment.hpp:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+# Not a target:
+bin/memory_segments/static_segment.d:
+#  Implicit rule search has been done.
+#  Last modified 2022-08-03 19:44:32.281873138
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
-bin/instr.d:
+bin/memory_segments/baseless_segment.d:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-03 16:06:10.114875539
+#  Last modified 2022-08-03 19:44:32.761878735
+ 
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 bin/main.d:
 #  Implicit rule search has been done.
- 
-#  Last modified 2022-08-03 16:26:59.897428096
+#  File does not exist.
 #  File has been updated.
-#  Successfully updated.
+#  Failed to be updated.
 
 # Not a target:
 src/parser.cpp:
@@ -415,9 +387,16 @@ src/parser.cpp:
 #  File has not been updated.
 
 # Not a target:
+bin/memory_segments/memory_segment.d:
+#  Implicit rule search has been done.
+#  Last modified 2022-08-03 19:44:33.649889091
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
 bin/lexer.d:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-03 16:06:09.34287293
+#  Last modified 2022-08-03 20:02:26.239718424
 #  File has been updated.
 #  Successfully updated.
 
@@ -427,29 +406,27 @@ bin/lexer.d:
 #  Modification time never checked.
 #  File has not been updated.
 
-# Not a target:
-src/instr.cpp:
+bin/parser.o: src/parser.cpp src/parser.hpp src/instructions/instr.hpp src/lexer.hpp
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+src/memory_segments/memory_segment.hpp:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
 
 # Not a target:
-bin/static_segment.d:
-#  Implicit rule search has been done.
-#  Last modified 2022-08-03 16:06:06.246862213
-#  File has been updated.
-#  Successfully updated.
-
-bin/parser.o: src/parser.cpp src/parser.hpp src/instr.hpp src/lexer.hpp
+src/memory_segments/static_segment.cpp:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
 
-bin/vm_compiler: bin/static_segment.o bin/baseless_segment.o bin/constant_segment.o bin/memory_segment.o bin/runtime_context.o bin/lexer.o bin/stack_segment.o bin/instr.o bin/parser.o bin/main.o bin/codegen.o
+bin/vm_compiler: bin/lexer.o bin/parser.o bin/instructions/instr.o bin/memory_segments/stack_segment.o bin/memory_segments/constant_segment.o bin/memory_segments/static_segment.o bin/memory_segments/memory_segment.o bin/memory_segments/baseless_segment.o bin/main.o bin/runtime_context.o
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 20):
+#  recipe to execute (from 'Makefile', line 23):
 	g++ $(CFLAGS) $^ -o $@
 
 clean:
@@ -457,7 +434,7 @@ clean:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 30):
+#  recipe to execute (from 'Makefile', line 33):
 	rm -r -f $(OBJDIR) \
 	
 	rm -f $(obj) $(TARGET) $(dep)
@@ -465,45 +442,41 @@ clean:
 src/parser.hpp:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
+ 
 #  File has not been updated.
 
 # Not a target:
-bin/baseless_segment.d:
+bin/memory_segments/constant_segment.d:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-03 16:06:06.654863649
+#  Last modified 2022-08-03 19:44:33.19788382
 #  File has been updated.
 #  Successfully updated.
 
-bin/instr.o: src/instr.cpp src/instr.hpp
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
 # Not a target:
-src/main.cpp:
+src/memory_segments/baseless_segment.cpp:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
 
 vm_compiler:
- 
 #  Phony target (prerequisite of .PHONY).
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 15):
+#  recipe to execute (from 'Makefile', line 16):
 	mkdir -p $(OBJDIR) \
 	
+	mkdir -p $(dirs) \
+
 	make $(TARGET)
 
-# Not a target:
-bin/memory_segment.d:
-#  Implicit rule search has been done.
-#  Last modified 2022-08-03 16:06:07.462866471
-#  File has been updated.
-#  Successfully updated.
+bin/memory_segments/static_segment.o: src/memory_segments/static_segment.cpp src/memory_segments/static_segment.hpp src/memory_segments/memory_segment.hpp
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
-src/instr.hpp:
+# Not a target:
+src/memory_segments/memory_segment.cpp:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -514,23 +487,31 @@ src/lexer.cpp:
 #  Modification time never checked.
 #  File has not been updated.
 
-bin/main.o: src/main.cpp src/lexer.hpp src/parser.hpp src/instr.hpp src/runtime_context.hpp src/memory_segment.hpp
+src/memory_segments/static_segment.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+bin/memory_segments/baseless_segment.o: src/memory_segments/baseless_segment.cpp src/memory_segments/baseless_segment.hpp src/memory_segments/memory_segment.hpp
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
 
 # Not a target:
-src/static_segment.cpp:
+bin/main.o:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
 
-# Not a target:
-bin/constant_segment.d:
-#  Implicit rule search has been done.
-#  Last modified 2022-08-03 16:06:07.058865068
-#  File has been updated.
-#  Successfully updated.
+bin/memory_segments/memory_segment.o: src/memory_segments/memory_segment.cpp src/memory_segments/memory_segment.hpp
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+src/memory_segments/baseless_segment.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 bin/lexer.o: src/lexer.cpp src/lexer.hpp
 #  Implicit rule search has not been done.
@@ -538,67 +519,57 @@ bin/lexer.o: src/lexer.cpp src/lexer.hpp
 #  File has not been updated.
 
 # Not a target:
-bin/codegen.d:
+bin/memory_segments/stack_segment.d:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-03 16:06:17.922900492
+#  Last modified 2022-08-03 19:44:34.133894734
 #  File has been updated.
 #  Successfully updated.
-
-# Not a target:
-src/baseless_segment.cpp:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
 
 # Not a target:
 bin/runtime_context.d:
 #  Implicit rule search has been done.
- 
-#  Last modified 2022-08-03 16:06:08.702870749
+#  File does not exist.
 #  File has been updated.
-#  Successfully updated.
+#  Failed to be updated.
 
-bin/static_segment.o: src/static_segment.cpp src/static_segment.hpp src/memory_segment.hpp
+# Not a target:
+src/memory_segments/constant_segment.cpp:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
+
+# Not a target:
+bin/instructions/instr.d:
+#  Implicit rule search has been done.
+#  Last modified 2022-08-03 19:44:31.805867587
+#  File has been updated.
+#  Successfully updated.
 
 src/lexer.hpp:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
 
-# Not a target:
-src/memory_segment.cpp:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-src/static_segment.hpp:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-bin/baseless_segment.o: src/baseless_segment.cpp src/baseless_segment.hpp src/memory_segment.hpp
+bin/memory_segments/constant_segment.o: src/memory_segments/constant_segment.cpp src/memory_segments/constant_segment.hpp src/memory_segments/memory_segment.hpp
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
 
 # files hash-table stats:
-# Load=51/1024=5%, Rehash=0, Collisions=0/164=0%
+# Load=45/1024=4%, Rehash=0, Collisions=14/126=11%
 # VPATH Search Paths
 
+ 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 82 / storage = 1271 B / avg = 15 B
-# current buf: size = 8162 B / used = 1271 B / count = 82 / avg = 15 B
+# strcache buffers: 1 (0) / strings = 55 / storage = 1207 B / avg = 21 B
+# current buf: size = 8162 B / used = 1207 B / count = 55 / avg = 21 B
 
-# strcache performance: lookups = 202 / hit rate = 59%
+# strcache performance: lookups = 131 / hit rate = 58%
 # hash-table stats:
- 
-# Load=82/8192=1%, Rehash=0, Collisions=2/202=1%
-# Finished Make data base on Wed Aug  3 16:27:03 2022
+# Load=55/8192=1%, Rehash=0, Collisions=4/131=3%
+# Finished Make data base on Wed Aug  3 20:02:48 2022
 
  
