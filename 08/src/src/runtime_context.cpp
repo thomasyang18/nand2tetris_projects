@@ -3,7 +3,9 @@
 #include "memory_segments/static_segment.hpp"
 #include "memory_segments/stack_segment.hpp"
 #include "memory_segments/baseless_segment.hpp"
+
 #include "instructions/stack_instrs.hpp"
+#include "instructions/jump_instrs.hpp"
 #include <stdexcept>
 
 RuntimeContext::RuntimeContext(){}
@@ -125,7 +127,6 @@ std::vector<std::string> RuntimeContext::do_instr(std::shared_ptr<Instr> instr){
             default:
             throw std::invalid_argument("Binary Op not implemented");
         }
-
         push_all_back(ret, name2seg["stack"]->push_value());
     }
     else if (auto op = std::dynamic_pointer_cast<UnaryOp>(instr)){
@@ -141,7 +142,19 @@ std::vector<std::string> RuntimeContext::do_instr(std::shared_ptr<Instr> instr){
             throw std::invalid_argument("Unary Op not implemented");
         }
         push_all_back(ret, name2seg["stack"]->push_value());
-
+    }
+    else if (auto op = std::dynamic_pointer_cast<LabelOp>(instr)){
+        ret.push_back("(" + op->name + ")");
+    }
+    else if (auto op = std::dynamic_pointer_cast<GotoOp>(instr)){
+        ret.push_back("@" + op->name);
+        ret.push_back("0;JMP");
+    }
+    else if (auto op = std::dynamic_pointer_cast<IfGotoOp>(instr)){
+        // IfGoto is implemented as if the top argument on stack (after popping) 
+        push_all_back(ret, name2seg["stack"]->pop_value());
+        ret.push_back("@" + op->name);
+        ret.push_back("D;JGT");
     }
     else throw std::invalid_argument("Instruction not implemented");
     

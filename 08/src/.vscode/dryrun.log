@@ -1,6 +1,5 @@
-make --dry-run --keep-going --print-directory
+make --dry-run --always-make --keep-going --print-directory
 make: Entering directory '/home/thomas/nand2tetris/nand2tetris_projects/08/src'
- 
 make vm_compiler
 make: Leaving directory '/home/thomas/nand2tetris/nand2tetris_projects/08/src'
  
