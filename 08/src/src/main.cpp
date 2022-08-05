@@ -9,6 +9,8 @@
 #include <string>
 #include <filesystem>
 
+bool debug = false;
+
 std::string fileize(std::string str){ // turns FILE.vm into FILE
     int ptr = (int)str.size()-1;
     for (; ptr >= 0; ptr--) if (str[ptr] == '/') break;
@@ -36,6 +38,8 @@ void parse_file(std::string file){
     std::string outfile = file_name_to_asm(file);
     if (outfile == "") return;
 
+    if (file.find("Sys.vm") != std::string::npos) RuntimeContext::bootstrap();
+
     std::ifstream myfile;
     myfile.open(file);
     Lexer lex;
@@ -45,7 +49,7 @@ void parse_file(std::string file){
     auto ans = parser.parse();
     std::string str = file;
 
-    RuntimeContext ctxt(fileize(str));     
+    RuntimeContext ctxt(fileize(str), debug);     
 
     std::ofstream ofile;
     ofile.open(outfile);
@@ -68,6 +72,11 @@ void parse_dir(std::string dir){ // Parses only the .vm files in a directory
 int main(int argc, char **argv ){
     // Compiles all files
     for (int i = 1; i < argc; i++){
+
+        if (argv[i][0] == '-'){
+            if (argv[i][1] == 'd') debug = true;
+            continue;
+        }
 
         struct stat s;
         if( stat(argv[i],&s) == 0 ) {

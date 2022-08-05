@@ -9,10 +9,21 @@
 #include "instructions/call_instr.hpp"
 #include "instructions/func_instr.hpp"
 #include <stdexcept>
+#include <fstream>
+
+void RuntimeContext::bootstrap(){
+    std::ofstream ofile;
+    ofile.open("bootstrap.asm");
+    ofile << "@256\n" << "D=A\n" << "@0\n" << "M=D\n";
+    ofile << "@Sys.init\n" << "0;JMP\n";
+    ofile.close();
+}
 
 RuntimeContext::RuntimeContext(){}
 
-RuntimeContext::RuntimeContext(std::string _file_name){
+RuntimeContext::RuntimeContext(std::string _file_name, bool _debug){
+    debug = _debug;
+    file_name = _file_name;
     add_segment(std::shared_ptr<StackSegment>(new StackSegment("stack", 0, 256, 2047)));
     add_segment(std::shared_ptr<MemorySegment>(new MemorySegment("local", 1)));
     add_segment(std::shared_ptr<MemorySegment>(new MemorySegment("argument", 2)));
@@ -47,7 +58,7 @@ constexpr unsigned int hash(const char *s, int off = 0){
 } 
 
 std::string RuntimeContext::new_temp_label(){
-    return "TEMP_LABEL_" + std::to_string(temp_labels++);
+    return file_name + "_TEMP_LABEL_" + std::to_string(temp_labels++);
 }
 
 std::vector<std::string> swap_registers(){
@@ -74,10 +85,18 @@ std::vector<std::string> push_constant_into_D(unsigned int constant){
     return ret;
 }
 
+std::vector<std::string> push_dereferenced_label_into_D(std::string label){
+    // takes base of various stack pointers
+    std::vector<std::string> ret;
+    ret.push_back("@" + label);
+    ret.push_back("D=M");
+    return ret;
+}
+
 std::vector<std::string> RuntimeContext::do_instr(std::shared_ptr<Instr> instr){
     
     std::vector<std::string> ret;
-    ret.push_back(to_comment(instr));
+    if (debug) ret.push_back(to_comment(instr));
     
     if (auto op = std::dynamic_pointer_cast<StackOperation>(instr)){
         if (!name2seg.count(op->type)) throw std::invalid_argument("Unknown memory segment name: " + op->type);
@@ -168,22 +187,22 @@ std::vector<std::string> RuntimeContext::do_instr(std::shared_ptr<Instr> instr){
         ret.push_back("D;JGT");
     } else if (auto op = std::dynamic_pointer_cast<CallOp>(instr)){
         std::string temp_label = new_temp_label();
-        push_all_back(ret, push_label_into_D(temp_label.substr(1,(int)temp_label.size()-1)));
+        push_all_back(ret, push_label_into_D(temp_label));
         push_all_back(ret, name2seg["stack"]->push_value());
 
-        push_all_back(ret, push_label_into_D("LCL"));
+        push_all_back(ret, push_dereferenced_label_into_D("LCL"));
         push_all_back(ret, name2seg["stack"]->push_value());
 
-        push_all_back(ret, push_label_into_D("ARG"));
+        push_all_back(ret, push_dereferenced_label_into_D("ARG"));
         push_all_back(ret, name2seg["stack"]->push_value());
 
-        push_all_back(ret, push_label_into_D("THIS"));
+        push_all_back(ret, push_dereferenced_label_into_D("THIS"));
         push_all_back(ret, name2seg["stack"]->push_value());
 
-        push_all_back(ret, push_label_into_D("THAT"));
+        push_all_back(ret, push_dereferenced_label_into_D("THAT"));
         push_all_back(ret, name2seg["stack"]->push_value());
 
-        push_all_back(ret, push_label_into_D("SP"));
+        push_all_back(ret, push_dereferenced_label_into_D("SP"));
         ret.push_back("@LCL");
         ret.push_back("M=D");
 
@@ -197,7 +216,7 @@ std::vector<std::string> RuntimeContext::do_instr(std::shared_ptr<Instr> instr){
         ret.push_back("M=M-D");
         ret.push_back("@" + op->name);
         ret.push_back("0;JMP");
-        ret.push_back(temp_label);
+        ret.push_back("("+temp_label+")");
     } else if (auto op = std::dynamic_pointer_cast<FuncOp>(instr)){
         ret.push_back("(" + op->name+")");
         push_all_back(ret, push_constant_into_D(0)); // D is never changed when stack pushes so this is fine
@@ -211,13 +230,11 @@ std::vector<std::string> RuntimeContext::do_instr(std::shared_ptr<Instr> instr){
         ret.push_back("A=M");
         ret.push_back("M=D");
         // Store ARG from before
-        ret.push_back("@ARG");
-        ret.push_back("D=M");
+        push_all_back(ret, push_dereferenced_label_into_D("ARG"));
         ret.push_back("@R14");
         ret.push_back("M=D");
         // SP = LCL
-        ret.push_back("@LCL");
-        ret.push_back("D=M");
+        push_all_back(ret, push_dereferenced_label_into_D("SP"));
         ret.push_back("@SP"); 
         ret.push_back("M=D");
         //pop until return address
@@ -241,10 +258,9 @@ std::vector<std::string> RuntimeContext::do_instr(std::shared_ptr<Instr> instr){
         ret.push_back("@R15");
         ret.push_back("M=D");
         //sp = r14 (arg from before) +1
-        ret.push_back("@R14");
-        ret.push_back("D=M+1");
+        push_all_back(ret, push_dereferenced_label_into_D("R14"));
         ret.push_back("@SP");
-        ret.push_back("M=D");
+        ret.push_back("M=D+1");
         //goto temp
         ret.push_back("@R15");
         ret.push_back("A=M;JMP");
