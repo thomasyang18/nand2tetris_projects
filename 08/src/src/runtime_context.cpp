@@ -6,6 +6,8 @@
 
 #include "instructions/stack_instrs.hpp"
 #include "instructions/jump_instrs.hpp"
+#include "instructions/call_instr.hpp"
+#include "instructions/func_instr.hpp"
 #include <stdexcept>
 
 RuntimeContext::RuntimeContext(){}
@@ -57,6 +59,20 @@ std::vector<std::string> swap_registers(){
     return ret;
 }
 
+std::vector<std::string> push_label_into_D(std::string label){
+    std::vector<std::string> ret;
+    ret.push_back("@" + label);
+    ret.push_back("D=A");
+    return ret;
+}
+
+std::vector<std::string> push_constant_into_D(unsigned int constant){ 
+    // does NOT dereference label
+    std::vector<std::string> ret;
+    ret.push_back("@" + std::to_string(constant));
+    ret.push_back("D=A");
+    return ret;
+}
 
 std::vector<std::string> RuntimeContext::do_instr(std::shared_ptr<Instr> instr){
     
@@ -77,8 +93,7 @@ std::vector<std::string> RuntimeContext::do_instr(std::shared_ptr<Instr> instr){
             ret.push_back("M=D");
         }
         else throw std::invalid_argument("Stack instruction not implemented");
-    }
-    else if (auto op = std::dynamic_pointer_cast<BinaryOp>(instr)){
+    } else if (auto op = std::dynamic_pointer_cast<BinaryOp>(instr)){
         push_all_back(ret, name2seg["stack"]->pop_value()); // puts y in place
         // do a fancy instruction that saves to A register
         push_all_back(ret, name2seg["stack"]->pop_value(1));
@@ -128,8 +143,7 @@ std::vector<std::string> RuntimeContext::do_instr(std::shared_ptr<Instr> instr){
             throw std::invalid_argument("Binary Op not implemented");
         }
         push_all_back(ret, name2seg["stack"]->push_value());
-    }
-    else if (auto op = std::dynamic_pointer_cast<UnaryOp>(instr)){
+    } else if (auto op = std::dynamic_pointer_cast<UnaryOp>(instr)){
         push_all_back(ret, name2seg["stack"]->pop_value());
         switch(hash(op->opName.c_str())){
             case hash("neg"):
@@ -142,20 +156,100 @@ std::vector<std::string> RuntimeContext::do_instr(std::shared_ptr<Instr> instr){
             throw std::invalid_argument("Unary Op not implemented");
         }
         push_all_back(ret, name2seg["stack"]->push_value());
-    }
-    else if (auto op = std::dynamic_pointer_cast<LabelOp>(instr)){
+    } else if (auto op = std::dynamic_pointer_cast<LabelOp>(instr)){
         ret.push_back("(" + op->name + ")");
-    }
-    else if (auto op = std::dynamic_pointer_cast<GotoOp>(instr)){
+    } else if (auto op = std::dynamic_pointer_cast<GotoOp>(instr)){
         ret.push_back("@" + op->name);
         ret.push_back("0;JMP");
-    }
-    else if (auto op = std::dynamic_pointer_cast<IfGotoOp>(instr)){
+    } else if (auto op = std::dynamic_pointer_cast<IfGotoOp>(instr)){
         // IfGoto is implemented as if the top argument on stack (after popping) 
         push_all_back(ret, name2seg["stack"]->pop_value());
         ret.push_back("@" + op->name);
         ret.push_back("D;JGT");
+    } else if (auto op = std::dynamic_pointer_cast<CallOp>(instr)){
+        std::string temp_label = new_temp_label();
+        push_all_back(ret, push_label_into_D(temp_label.substr(1,(int)temp_label.size()-1)));
+        push_all_back(ret, name2seg["stack"]->push_value());
+
+        push_all_back(ret, push_label_into_D("LCL"));
+        push_all_back(ret, name2seg["stack"]->push_value());
+
+        push_all_back(ret, push_label_into_D("ARG"));
+        push_all_back(ret, name2seg["stack"]->push_value());
+
+        push_all_back(ret, push_label_into_D("THIS"));
+        push_all_back(ret, name2seg["stack"]->push_value());
+
+        push_all_back(ret, push_label_into_D("THAT"));
+        push_all_back(ret, name2seg["stack"]->push_value());
+
+        push_all_back(ret, push_label_into_D("SP"));
+        ret.push_back("@LCL");
+        ret.push_back("M=D");
+
+        ret.push_back("@ARG");
+        ret.push_back("M=D");
+        push_all_back(ret, push_constant_into_D(5));
+        ret.push_back("@ARG");
+        ret.push_back("M=M-D");
+        push_all_back(ret, push_constant_into_D(op->n_args));
+        ret.push_back("@ARG");
+        ret.push_back("M=M-D");
+        ret.push_back("@" + op->name);
+        ret.push_back("0;JMP");
+        ret.push_back(temp_label);
+    } else if (auto op = std::dynamic_pointer_cast<FuncOp>(instr)){
+        ret.push_back("(" + op->name+")");
+        push_all_back(ret, push_constant_into_D(0)); // D is never changed when stack pushes so this is fine
+        for (unsigned int times = 0; times < op->n_vars; times++){
+            push_all_back(ret, name2seg["stack"]->push_value());
+        }
+    } else if (auto op = std::dynamic_pointer_cast<ReturnOp>(instr)){
+        // Pop stack into arg[0]. Reused code but w/e
+        push_all_back(ret, name2seg["stack"]->pop_value());
+        ret.push_back("@ARG");
+        ret.push_back("A=M");
+        ret.push_back("M=D");
+        // Store ARG from before
+        ret.push_back("@ARG");
+        ret.push_back("D=M");
+        ret.push_back("@R14");
+        ret.push_back("M=D");
+        // SP = LCL
+        ret.push_back("@LCL");
+        ret.push_back("D=M");
+        ret.push_back("@SP"); 
+        ret.push_back("M=D");
+        //pop until return address
+        push_all_back(ret, name2seg["stack"]->pop_value());
+        ret.push_back("@THAT");
+        ret.push_back("M=D");
+
+        push_all_back(ret, name2seg["stack"]->pop_value());
+        ret.push_back("@THIS");
+        ret.push_back("M=D");
+        
+        push_all_back(ret, name2seg["stack"]->pop_value());
+        ret.push_back("@ARG");
+        ret.push_back("M=D");
+        
+        push_all_back(ret, name2seg["stack"]->pop_value());
+        ret.push_back("@LCL");
+        ret.push_back("M=D");
+        //pop return address into temp
+        push_all_back(ret, name2seg["stack"]->pop_value());
+        ret.push_back("@R15");
+        ret.push_back("M=D");
+        //sp = r14 (arg from before) +1
+        ret.push_back("@R14");
+        ret.push_back("D=M+1");
+        ret.push_back("@SP");
+        ret.push_back("M=D");
+        //goto temp
+        ret.push_back("@R15");
+        ret.push_back("A=M;JMP");
     }
+    
     else throw std::invalid_argument("Instruction not implemented");
     
     return ret;
