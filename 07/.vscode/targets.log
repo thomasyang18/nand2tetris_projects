@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Thu Jul 21 18:28:30 2022
+# Make data base, printed on Wed Jul 27 16:45:04 2022
 
 # Variables
 
@@ -53,7 +53,7 @@ VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupp
 # environment
 _ = /usr/share/code/code
 # environment
-JOURNAL_STREAM = 8:50897
+JOURNAL_STREAM = 8:56456
 # environment
 XDG_CONFIG_DIRS = /etc/xdg/xdg-ubuntu:/etc/xdg
 # makefile
@@ -71,7 +71,7 @@ XDG_DATA_DIRS = /usr/share/ubuntu:/home/thomas/.local/share/flatpak/exports/shar
 # environment
 DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
 # environment
-MANAGERPID = 2111
+MANAGERPID = 2271
 # environment
 LESSOPEN = | /usr/bin/lesspipe %s
 # environment
@@ -83,7 +83,7 @@ NO_PROXY = 127.0.0.1
 # environment
 GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
 # environment
-SESSION_MANAGER = local/thomas-IdeaPad-3-15ALC6:@/tmp/.ICE-unix/2389,unix/thomas-IdeaPad-3-15ALC6:/tmp/.ICE-unix/2389
+SESSION_MANAGER = local/thomas-IdeaPad-3-15ALC6:@/tmp/.ICE-unix/2551,unix/thomas-IdeaPad-3-15ALC6:/tmp/.ICE-unix/2551
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # environment
@@ -91,7 +91,7 @@ XDG_MENU_PREFIX = gnome-
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-INVOCATION_ID = 808eadfb0b2e40cb998d042420fb2e4c
+INVOCATION_ID = 55ac312b7eb345818ce8315594fdb22d
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -101,7 +101,7 @@ XDG_SESSION_DESKTOP = ubuntu
 # environment
 SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 2757
+GIO_LAUNCHED_DESKTOP_FILE_PID = 6343
 # automatic
 %F = $(notdir $%)
 # environment
@@ -111,7 +111,7 @@ PWD = /home/thomas/nand2tetris/nand2tetris_projects/07
 # default
 .LOADED := 
 # environment
-SSH_AGENT_PID = 2315
+SSH_AGENT_PID = 2476
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = ubuntu:GNOME
 # environment
@@ -139,7 +139,7 @@ GNOME_DESKTOP_SESSION_ID = this-is-deprecated
 # environment
 MAKELEVEL := 0
 # environment
-PLATFORMIO_PATH = /home/thomas/.platformio/penv/bin:/home/thomas/.platformio/penv:/home/thomas/.platformio/python3/bin:/home/thomas/.opam/4.11.1/bin:/home/linuxbrew/.linuxbrew/bin:/home/thomas/.yarn/bin:/home/thomas/.local/bin:/home/thomas/.local/bin:/home/thomas/.yarn/bin:/home/linuxbrew/.linuxbrew/bin:/home/thomas/.cargo/bin:/home/thomas/.opam/4.11.1/bin:/home/linuxbrew/.linuxbrew/bin:/home/thomas/.yarn/bin:/home/thomas/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+PLATFORMIO_PATH = /home/thomas/.platformio/python3/bin:/home/thomas/.opam/4.11.1/bin:/home/linuxbrew/.linuxbrew/bin:/home/thomas/.yarn/bin:/home/thomas/.local/bin:/home/thomas/.local/bin:/home/thomas/.yarn/bin:/home/linuxbrew/.linuxbrew/bin:/home/thomas/.cargo/bin:/home/thomas/.opam/4.11.1/bin:/home/linuxbrew/.linuxbrew/bin:/home/thomas/.yarn/bin:/home/thomas/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 # default
 MAKE = $(MAKE_COMMAND)
 # default
@@ -211,7 +211,7 @@ GJS_DEBUG_OUTPUT = stderr
 # environment
 LANG = C
 # environment
-VSCODE_PID = 2757
+VSCODE_PID = 6343
 # variable set hash-table stats:
 # Load=100/1024=10%, Rehash=0, Collisions=14/122=11%
 
@@ -279,6 +279,6 @@ GNUmakefile:
 # strcache performance: lookups = 17 / hit rate = 17%
 # hash-table stats:
 # Load=14/8192=0%, Rehash=0, Collisions=1/17=6%
-# Finished Make data base on Thu Jul 21 18:28:30 2022
+# Finished Make data base on Wed Jul 27 16:45:04 2022
 
  

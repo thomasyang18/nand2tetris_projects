@@ -1,0 +1,152 @@
+// push constant 0
+@0
+D=A
+@0
+A=M
+M=D
+@0
+M=M+1
+// pop local 0
+@1
+D=M
+@0
+D=D+A
+@0
+M=M-1
+A=M
+A=M
+D=A-D
+A=D-A
+D=D-A
+A=-A
+M=D
+// label LOOP_START
+(LOOP_START)
+// push argument 0
+@2
+D=M
+@0
+A=D+A
+D=M
+@0
+A=M
+M=D
+@0
+M=M+1
+// push local 0
+@1
+D=M
+@0
+A=D+A
+D=M
+@0
+A=M
+M=D
+@0
+M=M+1
+// add
+@0
+M=M-1
+A=M
+D=M
+@0
+M=M-1
+A=M
+A=M
+D=D+A
+@0
+A=M
+M=D
+@0
+M=M+1
+// pop local 0
+@1
+D=M
+@0
+D=D+A
+@0
+M=M-1
+A=M
+A=M
+D=A-D
+A=D-A
+D=D-A
+A=-A
+M=D
+// push argument 0
+@2
+D=M
+@0
+A=D+A
+D=M
+@0
+A=M
+M=D
+@0
+M=M+1
+// push constant 1
+@1
+D=A
+@0
+A=M
+M=D
+@0
+M=M+1
+// sub
+@0
+M=M-1
+A=M
+D=M
+@0
+M=M-1
+A=M
+A=M
+D=A-D
+@0
+A=M
+M=D
+@0
+M=M+1
+// pop argument 0
+@2
+D=M
+@0
+D=D+A
+@0
+M=M-1
+A=M
+A=M
+D=A-D
+A=D-A
+D=D-A
+A=-A
+M=D
+// push argument 0
+@2
+D=M
+@0
+A=D+A
+D=M
+@0
+A=M
+M=D
+@0
+M=M+1
+// if-goto LOOP_START
+@0
+M=M-1
+A=M
+D=M
+@LOOP_START
+D;JGT
+// push local 0
+@1
+D=M
+@0
+A=D+A
+D=M
+@0
+A=M
+M=D
+@0
+M=M+1

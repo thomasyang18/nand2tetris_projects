@@ -8,11 +8,11 @@ class MemorySegment
 {
 public:
     MemorySegment();
-    MemorySegment(std::string _name, int _location);
+    MemorySegment(std::string _name, std::string hack_name);
     std::string name;
+    std::string hack_name;
     virtual std::vector<std::string> pop_value(int value = -1);  // pop off D, the stack var, into seg[location+value] 
     virtual std::vector<std::string> push_value(int value = -1); // pushes seg[location+value] to stack, so store result in D 
-    int location; // location on RAM for addressing
 };
 
 #endif

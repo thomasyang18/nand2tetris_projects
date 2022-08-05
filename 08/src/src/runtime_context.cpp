@@ -13,9 +13,17 @@
 
 void RuntimeContext::bootstrap(){
     std::ofstream ofile;
-    ofile.open("bootstrap.asm");
+    ofile.open("Bootstrap.asm");
     ofile << "@256\n" << "D=A\n" << "@0\n" << "M=D\n";
-    ofile << "@Sys.init\n" << "0;JMP\n";
+    
+    RuntimeContext ctxt("Bootstrap");
+    unsigned int pos = 0;
+    std::vector<std::string> tokens = {"call", "Sys.init","0"};
+    auto instr = CallOp::try_create_factory(tokens, pos);
+    for (auto &text: ctxt.do_instr({instr})){
+        ofile << text << '\n';
+    }
+
     ofile.close();
 }
 
@@ -24,11 +32,11 @@ RuntimeContext::RuntimeContext(){}
 RuntimeContext::RuntimeContext(std::string _file_name, bool _debug){
     debug = _debug;
     file_name = _file_name;
-    add_segment(std::shared_ptr<StackSegment>(new StackSegment("stack", 0, 256, 2047)));
-    add_segment(std::shared_ptr<MemorySegment>(new MemorySegment("local", 1)));
-    add_segment(std::shared_ptr<MemorySegment>(new MemorySegment("argument", 2)));
-    add_segment(std::shared_ptr<MemorySegment>(new MemorySegment("this", 3)));
-    add_segment(std::shared_ptr<MemorySegment>(new MemorySegment("that", 4)));
+    add_segment(std::shared_ptr<StackSegment>(new StackSegment("stack", 256, 2047)));
+    add_segment(std::shared_ptr<MemorySegment>(new MemorySegment("local", "LCL")));
+    add_segment(std::shared_ptr<MemorySegment>(new MemorySegment("argument", "ARG")));
+    add_segment(std::shared_ptr<MemorySegment>(new MemorySegment("this", "THIS")));
+    add_segment(std::shared_ptr<MemorySegment>(new MemorySegment("that", "THAT")));
     add_segment(std::shared_ptr<ConstantSegment>(new ConstantSegment("constant")));
     add_segment(std::shared_ptr<StaticSegment>(new StaticSegment("static", 16,255, _file_name)));
     add_segment(std::shared_ptr<BaselessSegment>(new BaselessSegment("pointer", 3,4)));
@@ -114,7 +122,7 @@ std::vector<std::string> RuntimeContext::do_instr(std::shared_ptr<Instr> instr){
         else throw std::invalid_argument("Stack instruction not implemented");
     } else if (auto op = std::dynamic_pointer_cast<BinaryOp>(instr)){
         push_all_back(ret, name2seg["stack"]->pop_value()); // puts y in place
-        // do a fancy instruction that saves to A register
+        // do a fancy instruction that saves to A register, this is x
         push_all_back(ret, name2seg["stack"]->pop_value(1));
         switch(hash(op->opName.c_str())){
             case hash("add"):
@@ -143,6 +151,8 @@ std::vector<std::string> RuntimeContext::do_instr(std::shared_ptr<Instr> instr){
                     case hash("lt"):
                     ret.push_back("D=D;JLT");
                     break;
+                    default:
+                    throw std::invalid_argument("Expected eq, gt, or lt");
                 }
                 ret.push_back("@" + new_label_2);
                 ret.push_back("D=0;JMP"); // will make it false
@@ -181,10 +191,11 @@ std::vector<std::string> RuntimeContext::do_instr(std::shared_ptr<Instr> instr){
         ret.push_back("@" + op->name);
         ret.push_back("0;JMP");
     } else if (auto op = std::dynamic_pointer_cast<IfGotoOp>(instr)){
-        // IfGoto is implemented as if the top argument on stack (after popping) 
+        // If element is -1, true, otherwise false.
         push_all_back(ret, name2seg["stack"]->pop_value());
+        ret.push_back("D=D+1");
         ret.push_back("@" + op->name);
-        ret.push_back("D;JGT");
+        ret.push_back("D;JEQ");
     } else if (auto op = std::dynamic_pointer_cast<CallOp>(instr)){
         std::string temp_label = new_temp_label();
         push_all_back(ret, push_label_into_D(temp_label));
@@ -224,17 +235,16 @@ std::vector<std::string> RuntimeContext::do_instr(std::shared_ptr<Instr> instr){
             push_all_back(ret, name2seg["stack"]->push_value());
         }
     } else if (auto op = std::dynamic_pointer_cast<ReturnOp>(instr)){
-        // Pop stack into arg[0]. Reused code but w/e
-        push_all_back(ret, name2seg["stack"]->pop_value());
-        ret.push_back("@ARG");
-        ret.push_back("A=M");
-        ret.push_back("M=D");
-        // Store ARG from before
+        // save dereferenced arg 
         push_all_back(ret, push_dereferenced_label_into_D("ARG"));
         ret.push_back("@R14");
         ret.push_back("M=D");
+        // Pop stack into R13. This will later be popped into old arg[0] location at the end
+        push_all_back(ret, name2seg["stack"]->pop_value());
+        ret.push_back("@R13");
+        ret.push_back("M=D");
         // SP = LCL
-        push_all_back(ret, push_dereferenced_label_into_D("SP"));
+        push_all_back(ret, push_dereferenced_label_into_D("LCL"));
         ret.push_back("@SP"); 
         ret.push_back("M=D");
         //pop until return address
@@ -257,10 +267,13 @@ std::vector<std::string> RuntimeContext::do_instr(std::shared_ptr<Instr> instr){
         push_all_back(ret, name2seg["stack"]->pop_value());
         ret.push_back("@R15");
         ret.push_back("M=D");
-        //sp = r14 (arg from before) +1
+        //sp = r14 (arg from before), push to rectify the +1 error later
         push_all_back(ret, push_dereferenced_label_into_D("R14"));
         ret.push_back("@SP");
-        ret.push_back("M=D+1");
+        ret.push_back("M=D");
+        // push r13 onto stack
+        push_all_back(ret, push_dereferenced_label_into_D("R13"));
+        push_all_back(ret, name2seg["stack"]->push_value());
         //goto temp
         ret.push_back("@R15");
         ret.push_back("A=M;JMP");

@@ -24,7 +24,7 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 
 -include $(dep) 
 
-.PHONY: clean prints
+.PHONY: clean prints vm_compiler
 
 clean:
 	rm -r -f $(OBJDIR) \
