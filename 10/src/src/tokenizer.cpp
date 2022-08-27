@@ -35,6 +35,8 @@ std::vector<std::string> symbols = {
 
 JackTokenizer::JackTokenizer(std::string _filename){
     std::ifstream input(_filename);
+    // To handle default constructor case; a bit sketch but w/e
+    if (!input.is_open()) return;
     tokens.clear();
 
     // Convert input to string for easy tokenizing
@@ -90,11 +92,11 @@ JackTokenizer::JackTokenizer(std::string _filename){
             std::string num;
             while (i < size && isdigit(buffer[i])) num += buffer[i++];
             if (num.size() >= 7){
-                std::invalid_argument("One of your numbers, " + num + ", is not the range 0,32767");
+                throw std::invalid_argument("One of your numbers, " + num + ", is not the range 0,32767");
             }
             int number = stoi(num);
             if (number < 0 || number > 32767) {
-                std::invalid_argument("One of your numbers, " + num + ", is not the range 0,32767");
+                throw std::invalid_argument("One of your numbers, " + num + ", is not the range 0,32767");
             }
             tokens.push_back(Token(num,integerConstant));
             continue;
@@ -125,7 +127,7 @@ JackTokenizer::JackTokenizer(std::string _filename){
         }
 
 
-        std::invalid_argument("Tokenizer failed on char index " + std::to_string(i));
+        throw std::invalid_argument("Tokenizer failed on char index " + std::to_string(i));
 
         end_token_loop:;
     }

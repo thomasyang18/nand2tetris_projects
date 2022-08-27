@@ -12,7 +12,7 @@ public:
     void advance(); 
     Token get_cur_token(); // Does not advance
     bool has_more_tokens();
-    JackTokenizer(std::string _filename);
+    JackTokenizer(std::string _filename = "");
 };
 
 #endif

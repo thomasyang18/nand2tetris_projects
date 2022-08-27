@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <filesystem> // only an avaiable include on c++17
 #include "tokenizer.hpp"
+#include "parsing/parser.hpp"
 
 int mode = 0;
 // 1 is token validator mode
@@ -21,6 +22,7 @@ inline bool ends_with(std::string const & value, std::string const & ending)
 
 void parse_file(std::string file){
     if (!ends_with(file, ".jack")) return;
+    
     JackTokenizer jt(file); 
     if (mode == 1){
         std::ofstream ofile(prefix(file) + "T.xml_mine");
@@ -28,36 +30,17 @@ void parse_file(std::string file){
         ofile << "<tokens>" << std::endl;
         while (jt.has_more_tokens()){
             Token t = jt.get_cur_token();
-            switch (t.type){
-                case none:
-                    std::invalid_argument("Token had no type");
-                case keyword:
-                    ofile << "<keyword> " << t.value << " </keyword>";
-                    break;
-                case identifier:
-                    ofile << "<identifier> " << t.value << " </identifier>";
-                    break;
-                case integerConstant:
-                    ofile << "<integerConstant> " << t.value << " </integerConstant>";
-                    break;
-                case stringConstant:
-                    ofile << "<stringConstant> " << t.value << " </stringConstant>";
-                    break;
-                case symbol:
-                    std::string temp = t.value;
-                    if (temp == "<") temp = "&lt;";
-                    if (temp == ">") temp = "&gt;";
-                    if (temp == "&") temp = "&amp;";
-                    ofile << "<symbol> " << temp << " </symbol>";
-                    break;
-            }   
+            ofile << t.to_xml() << std::endl;   
             jt.advance();
-            ofile << std::endl;
         }
         ofile << "</tokens>" << std::endl;
         ofile.close();
         return;
     }
+
+    glob_tok = jt;
+    auto res = std::move(parseClass());
+    
 }
 
 void parse_dir(std::string dir){ 
@@ -67,7 +50,7 @@ void parse_dir(std::string dir){
 
 
 int main(int argc, char **argv){
-    if (argc <= 1 || argc > 3) std::invalid_argument("Jack compiler takes up to 2 args - a file or directory, and a mode for test case stuff");
+    if (argc <= 1 || argc > 3) throw std::invalid_argument("Jack compiler takes up to 2 args - a file or directory, and a mode for test case stuff");
     if (argc == 3) mode = atoi(argv[2]);
     struct stat s;
     if( stat(argv[1],&s) == 0 )
@@ -80,7 +63,7 @@ int main(int argc, char **argv){
         {
             parse_file(argv[1]);
         }
-        else std::invalid_argument("Jack compiler takes exactly 1 arg - a file or directory");
+        else throw std::invalid_argument("Jack compiler takes exactly 1 arg - a file or directory");
     }
-    else std::invalid_argument("Jack compiler takes exactly 1 arg - a file or directory");
+    else throw std::invalid_argument("Jack compiler takes exactly 1 arg - a file or directory");
 }

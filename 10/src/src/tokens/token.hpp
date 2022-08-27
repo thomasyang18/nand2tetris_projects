@@ -18,6 +18,7 @@ public:
     std::string value;
     TokenType type;
     Token(std::string _value, TokenType type);
+    std::string to_xml();
 };
 
 #endif
