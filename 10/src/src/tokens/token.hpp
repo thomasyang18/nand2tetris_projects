@@ -17,7 +17,7 @@ class Token
 public:
     std::string value;
     TokenType type;
-    Token(std::string _value, TokenType type);
+    Token(std::string _value ="", TokenType type=none);
     std::string to_xml();
 };
 

@@ -4,17 +4,18 @@
 #include <string>
 #include <memory>
 #include <vector>
+#include "../tokenizer.hpp"
 
 class Node
 {   
     std::string type;
-    std::vector<std::unique_ptr<Node>> children; 
+    Token tok;
 public:
+    std::vector<std::unique_ptr<Node>> children; 
     std::string print();
     std::string compile();
     Node(std::string _type);
+    Node(Token _tok);
 };
-
-#include "parser.hpp"
 
 #endif

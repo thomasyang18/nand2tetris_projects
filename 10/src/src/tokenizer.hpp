@@ -6,9 +6,9 @@
 #include "tokens/token.hpp"
 
 class JackTokenizer{
-    size_t pos;
     std::vector<Token> tokens;
 public:
+    size_t pos = 0;
     void advance(); 
     Token get_cur_token(); // Does not advance
     bool has_more_tokens();

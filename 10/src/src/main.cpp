@@ -22,23 +22,23 @@ inline bool ends_with(std::string const & value, std::string const & ending)
 
 void parse_file(std::string file){
     if (!ends_with(file, ".jack")) return;
-    
-    JackTokenizer jt(file); 
+
+    glob_tok.reset(new JackTokenizer(file)); 
+
     if (mode == 1){
         std::ofstream ofile(prefix(file) + "T.xml_mine");
         // Token mode
         ofile << "<tokens>" << std::endl;
-        while (jt.has_more_tokens()){
-            Token t = jt.get_cur_token();
+        while (glob_tok->has_more_tokens()){
+            Token t = glob_tok->get_cur_token();
             ofile << t.to_xml() << std::endl;   
-            jt.advance();
+            glob_tok->advance();
         }
         ofile << "</tokens>" << std::endl;
         ofile.close();
         return;
     }
 
-    glob_tok = jt;
     auto res = std::move(parseClass());
     
 }

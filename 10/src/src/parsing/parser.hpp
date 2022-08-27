@@ -7,8 +7,9 @@
 #include "program.hpp"
 #include "statements.hpp"
 
-
-JackTokenizer glob_tok;
-int parse_depth = -1;
+extern std::unique_ptr<JackTokenizer> glob_tok;
+void parse_error();
+bool try_match_token(TokenType tokentype=none, std::string value="");
+std::unique_ptr<Node> force_next_token(TokenType tokentype=none, std::string value="");
 
 #endif
