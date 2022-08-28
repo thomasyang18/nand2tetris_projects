@@ -15,9 +15,18 @@ bool try_match_token(TokenType tokentype, std::string value){
     return cond1 && cond2;
 }
 
-std::unique_ptr<Node> force_next_token(TokenType tokentype, std::string value){
+bool force_next_token(std::unique_ptr<Node> &node, TokenType tokentype, std::string value){
     auto tok = glob_tok->get_cur_token();
     if (!try_match_token(tokentype, value)) parse_error();
     glob_tok->advance();
-    return std::unique_ptr<Node>(new Node(tok));    
+    node->children.push_back(std::unique_ptr<Node>(new Node(tok)));
+    return true;
+}
+
+bool try_force_token(std::unique_ptr<Node> &node, TokenType tokentype, std::string value){
+    auto tok = glob_tok->get_cur_token();
+    if (!try_match_token(tokentype, value)) return false;
+    glob_tok->advance();
+    node->children.push_back(std::unique_ptr<Node>(new Node(tok)));
+    return true;
 }

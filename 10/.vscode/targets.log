@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Fri Aug 26 20:56:31 2022
+# Make data base, printed on Sun Aug 28 11:06:13 2022
 
 # Variables
 
@@ -51,7 +51,7 @@ VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupp
 # environment
 _ = /usr/share/code/code
 # environment
-JOURNAL_STREAM = 8:42906
+JOURNAL_STREAM = 8:47709
 # environment
 XDG_CONFIG_DIRS = /etc/xdg/xdg-ubuntu:/etc/xdg
 # makefile
@@ -69,7 +69,7 @@ XDG_DATA_DIRS = /usr/share/ubuntu:/home/thomas/.local/share/flatpak/exports/shar
 # environment
 DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
 # environment
-MANAGERPID = 2091
+MANAGERPID = 2699
 # environment
 LESSOPEN = | /usr/bin/lesspipe %s
 # environment
@@ -81,7 +81,7 @@ NO_PROXY = 127.0.0.1
 # environment
 GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
 # environment
-SESSION_MANAGER = local/thomas-IdeaPad-3-15ALC6:@/tmp/.ICE-unix/2375,unix/thomas-IdeaPad-3-15ALC6:/tmp/.ICE-unix/2375
+SESSION_MANAGER = local/thomas-IdeaPad-3-15ALC6:@/tmp/.ICE-unix/2981,unix/thomas-IdeaPad-3-15ALC6:/tmp/.ICE-unix/2981
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # environment
@@ -89,7 +89,7 @@ XDG_MENU_PREFIX = gnome-
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-INVOCATION_ID = 6957274e718a42129ba715c0882ed78b
+INVOCATION_ID = 97bde98c41f2413b9fe286e898e215fc
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -99,7 +99,7 @@ XDG_SESSION_DESKTOP = ubuntu
 # environment
 SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 22524
+GIO_LAUNCHED_DESKTOP_FILE_PID = 3577
 # automatic
 %F = $(notdir $%)
 # environment
@@ -109,7 +109,7 @@ PWD = /home/thomas/nand2tetris/nand2tetris_projects/10
 # default
 .LOADED := 
 # environment
-SSH_AGENT_PID = 2301
+SSH_AGENT_PID = 2905
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = ubuntu:GNOME
 # environment
@@ -181,8 +181,6 @@ GDK_BACKEND = x11
 # automatic
 +F = $(notdir $+)
 # environment
-NO_AT_BRIDGE = 1
-# environment
 QT_ACCESSIBILITY = 1
 # default
 MAKEFILES := 
@@ -211,9 +209,9 @@ GJS_DEBUG_OUTPUT = stderr
 # environment
 LANG = C
 # environment
-VSCODE_PID = 22524
+VSCODE_PID = 3577
 # variable set hash-table stats:
-# Load=101/1024=10%, Rehash=0, Collisions=14/123=11%
+# Load=100/1024=10%, Rehash=0, Collisions=14/122=11%
 
 # Pattern-specific Variable Values
 
@@ -279,7 +277,7 @@ GNUmakefile:
 # strcache performance: lookups = 18 / hit rate = 16%
 # hash-table stats:
 # Load=15/8192=0%, Rehash=0, Collisions=1/18=6%
-# Finished Make data base on Fri Aug 26 20:56:31 2022
+# Finished Make data base on Sun Aug 28 11:06:13 2022
 
  
 make: *** No rule to make target 'all'.  Stop.
