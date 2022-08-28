@@ -10,6 +10,11 @@ void JackTokenizer::advance(){
     pos++;
 }
 
+Token JackTokenizer::get_ahead_token(){
+    if (pos + 1< tokens.size()) return tokens[pos+1];
+    return Token("",none);
+}
+
 Token JackTokenizer::get_cur_token(){
     if (has_more_tokens()) return tokens[pos];
     Token empty("",none);

@@ -1,11 +1,14 @@
 #ifndef _PARSER_HPP_
 #define _PARSER_HPP_
 
+#include <set>
+
 #include "expr_node.hpp"
 #include "../tokenizer.hpp"
 #include "expressions.hpp"
 #include "program.hpp"
 #include "statements.hpp"
+
 
 // x is a std::unique_ptr<Node>, y is the result of a parsing funciton
 // ex: PUSH_REC(x,parseClass())
@@ -13,7 +16,9 @@
 #define INIT(x) std::unique_ptr<Node> res(new Node(x));
  
 
+
 extern std::unique_ptr<JackTokenizer> glob_tok;
+extern std::set<std::string> class_names;
 void parse_error();
 
 // Match token does a peek

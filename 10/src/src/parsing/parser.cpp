@@ -2,6 +2,7 @@
 #include <stdexcept>
 
 std::unique_ptr<JackTokenizer> glob_tok;
+std::set<std::string> class_names;
 
 void parse_error(){
     Token tok = glob_tok->get_cur_token();

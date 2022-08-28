@@ -20,10 +20,13 @@ inline bool ends_with(std::string const & value, std::string const & ending)
     return std::equal(ending.rbegin(), ending.rend(), value.rbegin());
 }
 
+// 
+
 void parse_file(std::string file){
     if (!ends_with(file, ".jack")) return;
 
     glob_tok.reset(new JackTokenizer(file)); 
+    class_names.insert(glob_tok->get_cur_token().value); // Should be class name
 
     if (mode == 1){
         std::ofstream ofile(prefix(file) + "T.xml_mine");
@@ -44,6 +47,14 @@ void parse_file(std::string file){
 }
 
 void parse_dir(std::string dir){ 
+
+    for (const auto &entry: std::filesystem::directory_iterator(dir)){
+        std::string file = entry.path();
+        if (!ends_with(file, ".jack")) continue;
+        JackTokenizer jt(file);
+        class_names.insert(jt.get_cur_token().value); // Should be class name
+    }
+
     for (const auto & entry: std::filesystem::directory_iterator(dir))
         parse_file(entry.path());
 }
