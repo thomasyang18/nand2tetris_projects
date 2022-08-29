@@ -10,7 +10,9 @@ void visit_compress(std::unique_ptr<Node>& node){
     for (auto &x: node->children) visit_compress(x);
     if (ends_with(node->type, "Name") || 
     node->type == "type" ||
-    node->type == "statement"
+    node->type == "statement" || 
+    node->type == "keywordConstant" ||
+    node->type == "unaryOp"
     ){
         node = std::move(node->children[0]);
     }

@@ -47,6 +47,7 @@ void parse_file(std::string file){
         parse_ofile.open(prefix(file) + ".xml_mine");
         visit_compress(res);
         res->print();
+        parse_ofile.close();
     }
 
     
