@@ -1,0 +1,1 @@
+{"buildTargets":["all","bin/expr_node/expr_node.o","bin/jack_compiler","bin/main.o","clean","jack_compiler","prints"],"launchTargets":[],"customConfigurationProvider":{"workspaceBrowse":{"browsePath":[],"compilerArgs":[]},"fileIndex":[]}}

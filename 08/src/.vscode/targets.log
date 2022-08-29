@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Fri Aug  5 11:00:05 2022
+# Make data base, printed on Fri Aug  5 16:20:02 2022
 
 # Variables
 
@@ -105,7 +105,7 @@ XDG_SESSION_DESKTOP = ubuntu
 # environment
 SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 2743
+GIO_LAUNCHED_DESKTOP_FILE_PID = 19863
 # automatic
 %F = $(notdir $%)
 # environment
@@ -227,7 +227,7 @@ GJS_DEBUG_OUTPUT = stderr
 # environment
 LANG = C
 # environment
-VSCODE_PID = 2743
+VSCODE_PID = 19863
 # variable set hash-table stats:
 # Load=109/1024=11%, Rehash=0, Collisions=26/187=14%
 
@@ -564,11 +564,11 @@ bin/instructions/call_instr.o: src/instructions/call_instr.cpp src/instructions/
 # Not a target:
 src/memory_segments/memory_segment.cpp:
 #  Implicit rule search has not been done.
+ 
 #  Modification time never checked.
 #  File has not been updated.
 
 # Not a target:
- 
 src/lexer.cpp:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
@@ -619,7 +619,7 @@ bin/memory_segments/stack_segment.d:
 # Not a target:
 bin/runtime_context.d:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-05 06:46:42.647911723
+#  Last modified 2022-08-05 15:16:10.340099062
 #  File has been updated.
 #  Successfully updated.
 
@@ -674,6 +674,6 @@ bin/memory_segments/constant_segment.o: src/memory_segments/constant_segment.cpp
 # strcache performance: lookups = 251 / hit rate = 70%
 # hash-table stats:
 # Load=74/8192=1%, Rehash=0, Collisions=4/251=2%
-# Finished Make data base on Fri Aug  5 11:00:05 2022
+# Finished Make data base on Fri Aug  5 16:20:02 2022
 
  

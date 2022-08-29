@@ -1,0 +1,5 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/thomas/nand2tetris/nand2tetris_projects/10/src'
+make jack_compiler
+make: Leaving directory '/home/thomas/nand2tetris/nand2tetris_projects/10/src'
+ 
