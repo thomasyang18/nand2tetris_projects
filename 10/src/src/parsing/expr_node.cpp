@@ -1,4 +1,5 @@
 #include "expr_node.hpp"
+#include "parser.hpp"
 
 Node::Node(std::string _type){
     type = _type;
@@ -15,31 +16,33 @@ int parse_depth = -1;
 std::string Node::print(){
     parse_depth++;
     std::string res;
+        for (int i = 0 ; i <parse_depth; i++) res += "  ";
 
     if (tok.type == none){
-        for (int i = 0 ; i <parse_depth; i++) res += "\t";
         res = res + "<" + type + ">\n";
     }
     else {
-                for (int i = 0 ; i <parse_depth; i++) res += "\t";
 
         res += tok.to_xml();
         res += "\n";
     }
+    parse_ofile << res;
 
     for (auto &x: children) x->print();
 
+    res = "";
+            for (int i = 0 ; i <parse_depth; i++) res += "  ";
+
     if (tok.type == none){
-        for (int i = 0 ; i <parse_depth; i++) res += "\t";
-        res = res + "<" + type + ">\n";
+        res = res + "</" + type + ">\n";
     }
     else {
-                for (int i = 0 ; i <parse_depth; i++) res += "\t";
 
         res += tok.to_xml();
         res += "\n";
     }
 
+    parse_ofile << res;
 
     parse_depth--;
 

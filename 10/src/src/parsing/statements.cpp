@@ -1,7 +1,9 @@
 #include "statements.hpp"
+#include <iostream>
 
 std::unique_ptr<Node> parseStatements(){
     INIT("statements")
+
     while (try_match_token(keyword, "let") || 
     try_match_token(keyword, "if") ||
     try_match_token(keyword, "while") || 
@@ -25,8 +27,7 @@ std::unique_ptr<Node> parseLetStatement(){
     INIT("letStatement")
     force_next_token(res, keyword, "let");
     PUSH_REC(parseVarName())
-    if (try_match_token(keyword, "[")){
-        force_next_token(res, symbol, "[");
+    if (try_force_token(res,symbol, "[")){
         PUSH_REC(parseExpression())
         force_next_token(res, symbol, "]");
     }
@@ -75,6 +76,8 @@ std::unique_ptr<Node> parseDoStatement(){
     INIT("doStatement")
     force_next_token(res, keyword, "do");
     PUSH_REC(parseSubroutineCall())
+    force_next_token(res, symbol, ";");
+
     return res;
 }
 

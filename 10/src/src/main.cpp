@@ -41,8 +41,12 @@ void parse_file(std::string file){
         ofile.close();
         return;
     }
+    else if (mode == 2){   
+        std::unique_ptr<Node> res = std::move(parseClass());
+        parse_ofile.open(prefix(file) + ".xml_mine");
+        res->print();
+    }
 
-    auto res = std::move(parseClass());
     
 }
 

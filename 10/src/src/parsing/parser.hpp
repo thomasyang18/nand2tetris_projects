@@ -8,6 +8,7 @@
 #include "expressions.hpp"
 #include "program.hpp"
 #include "statements.hpp"
+#include <fstream>
 
 
 // x is a std::unique_ptr<Node>, y is the result of a parsing funciton
@@ -19,7 +20,9 @@
 
 extern std::unique_ptr<JackTokenizer> glob_tok;
 extern std::set<std::string> class_names;
-void parse_error();
+extern std::ofstream parse_ofile;
+
+void parse_error(std::string additional="");
 
 // Match token does a peek
 // force_next_token throws an error if new token doesn't work, advances & pushes new token & returns true otherwise

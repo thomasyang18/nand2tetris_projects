@@ -1,4 +1,5 @@
 #include "expressions.hpp"
+#include <iostream>
 
 std::unique_ptr<Node> parseExpression(){
     INIT("expression")
@@ -21,6 +22,8 @@ std::unique_ptr<Node> parseExpression(){
 std::unique_ptr<Node> parseTerm(){
     INIT("term")
 
+   // std::cout << "Yo " << glob_tok->get_cur_token().value << "\n";
+
     if (try_force_token(res, integerConstant));
     else if (try_force_token(res, stringConstant));
     else if (try_match_token(keyword, "true") || 
@@ -29,21 +32,28 @@ std::unique_ptr<Node> parseTerm(){
     try_match_token(keyword, "this") 
     ) PUSH_REC(parseKeywordConstant())
     else if (try_match_token(identifier)){
-
-        // TODO: redo this entire sectiion, it's wrong. Can't push var name first, have to check ahead for indexing and everything as well
-
         // grammar moment
         // imagine if i just used an actual parser gen
-        PUSH_REC(parseVarName())
+        
         // optional array indexing
-        if (try_force_token(res, symbol, "[")){
+        if (glob_tok->get_ahead_token().value == "["){
+            PUSH_REC(parseVarName())
+            force_next_token(res, symbol, "[");
             PUSH_REC(parseExpression())
-            try_force_token(res, symbol, "]");
+            force_next_token(res, symbol, "]");
         }
-        // subroutine call 
+        // subroutine call,  
         // this is LL(2)! 
         else if (glob_tok->get_ahead_token().value == "{"){
             PUSH_REC(parseSubroutineCall())
+        }
+        else if (glob_tok->get_ahead_token().value == "."){
+            // another way to get in is call method of class
+            PUSH_REC(parseSubroutineCall()) 
+        }
+        else {
+            // just var name
+            PUSH_REC(parseVarName())
         }
     }
     else if (try_force_token(res, symbol, "(")){
@@ -94,7 +104,8 @@ std::unique_ptr<Node> parseSubroutineCall(){
 
 std::unique_ptr<Node> parseExpressionList(){
     INIT("expressionList")
-    // first set for term is stupid
+    // first set for term
+
     if (try_match_token(integerConstant) ||
     try_match_token(stringConstant) ||
     try_match_token(keyword, "true") || 
@@ -105,9 +116,10 @@ std::unique_ptr<Node> parseExpressionList(){
     try_match_token(symbol, "(") || 
     try_match_token(symbol, "-") || try_match_token(symbol, "~")
     ) {
+        PUSH_REC(parseExpression())
         while (try_force_token(res, symbol, ",")) PUSH_REC(parseExpression())
     }
-
+    
     return res;
 }
 

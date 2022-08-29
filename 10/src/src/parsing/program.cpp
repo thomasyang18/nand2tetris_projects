@@ -5,10 +5,11 @@ std::unique_ptr<Node> parseClass(){
     INIT("class")
 
     force_next_token(res,keyword, "class");
-    
+
     PUSH_REC(parseClassName())
 
     force_next_token(res,symbol, "{");
+
 
     while (try_match_token(keyword, "static") || try_match_token(keyword, "field")) PUSH_REC(parseClassVarDec())
     while (try_match_token(keyword, "constructor") || try_match_token(keyword, "function") || 
@@ -89,8 +90,11 @@ std::unique_ptr<Node> parseParameterList(){
 
 std::unique_ptr<Node> parseSubroutineBody(){
     INIT("subroutineBody")
+
+
     force_next_token(res, symbol, "{");
-    while (try_match_token(keyword, "var")) PUSH_REC(parseVarName());
+    while (try_match_token(keyword, "var")) PUSH_REC(parseVarDec());
+
     PUSH_REC(parseStatements())
     force_next_token(res, symbol, "}");
     
@@ -102,9 +106,7 @@ std::unique_ptr<Node> parseVarDec(){
     force_next_token(res, keyword, "var");
     PUSH_REC(parseType())
     PUSH_REC(parseVarName())
-    while (try_match_token(symbol, ",")){
-        force_next_token(res,symbol, ",");
-        PUSH_REC(parseType())
+    while (try_force_token(res,symbol, ",")){
         PUSH_REC(parseVarName())
     }
     force_next_token(res, symbol, ";");
