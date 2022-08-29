@@ -13,38 +13,25 @@ Node::Node(Token _tok){
 
 int parse_depth = -1;
 
-std::string Node::print(){
+void Node::print(){
     parse_depth++;
     std::string res;
-        for (int i = 0 ; i <parse_depth; i++) res += "  ";
+    for (int i = 0 ; i <parse_depth; i++) res += "  ";
 
-    if (tok.type == none){
-        res = res + "<" + type + ">\n";
-    }
-    else {
-
+    if (tok.type != none){
         res += tok.to_xml();
         res += "\n";
+        parse_ofile << res;
+        parse_depth--;
+        return;
     }
-    parse_ofile << res;
 
+    res = res + "<" + type + ">\n";
+    parse_ofile << res;
     for (auto &x: children) x->print();
-
     res = "";
-            for (int i = 0 ; i <parse_depth; i++) res += "  ";
-
-    if (tok.type == none){
-        res = res + "</" + type + ">\n";
-    }
-    else {
-
-        res += tok.to_xml();
-        res += "\n";
-    }
-
+    for (int i = 0 ; i <parse_depth; i++) res += "  ";
+    res = res + "</" + type + ">\n";
     parse_ofile << res;
-
     parse_depth--;
-
-    return res;
 }

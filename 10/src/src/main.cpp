@@ -5,6 +5,7 @@
 #include <filesystem> // only an avaiable include on c++17
 #include "tokenizer.hpp"
 #include "parsing/parser.hpp"
+#include "visitors/visitors.hpp"
 
 int mode = 0;
 // 1 is token validator mode
@@ -44,6 +45,7 @@ void parse_file(std::string file){
     else if (mode == 2){   
         std::unique_ptr<Node> res = std::move(parseClass());
         parse_ofile.open(prefix(file) + ".xml_mine");
+        visit_compress(res);
         res->print();
     }
 

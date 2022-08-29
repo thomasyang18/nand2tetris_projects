@@ -8,12 +8,12 @@
 
 class Node
 {   
+public:
     std::string type;
     Token tok;
-public:
     std::vector<std::unique_ptr<Node>> children; 
-    std::string print();
-    std::string compile();
+    void print();
+    void compile();
     Node(std::string _type);
     Node(Token _tok);
 };
