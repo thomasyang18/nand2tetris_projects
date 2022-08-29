@@ -48,8 +48,7 @@ std::unique_ptr<Node> parseIfStatement(){
     PUSH_REC(parseStatements())
     force_next_token(res, symbol, "}");
 
-    if (try_match_token(symbol, "else")){
-        force_next_token(res, symbol, "else");
+    if (try_force_token(res, keyword, "else")){
         force_next_token(res, symbol, "{");
         PUSH_REC(parseStatements())
         force_next_token(res, symbol, "}");
