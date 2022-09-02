@@ -25,7 +25,7 @@ bool JackTokenizer::has_more_tokens(){
     return pos < tokens.size();
 }
 
-std::vector<std::string> keywords = {
+std::set<std::string> keywords = {
     "class", "constructor", "function", "method", 
     "field", "static", "var", "int", 
     "char", "boolean", "void", "true",
@@ -66,17 +66,6 @@ JackTokenizer::JackTokenizer(std::string _filename){
             i+=2; // If i == size-1, we reached EOF so fail loop check. 
             // Otherwise, we want to +=2 to skip past the */_
             continue;
-        }
-
-        // Handle tokens
-        for (auto s: keywords) {
-            if (i + s.size() > size) continue;
-            auto subbuffer = buffer.substr(i, s.size());
-            if (subbuffer.compare(s) == 0) {
-                tokens.push_back(Token(s,keyword));
-                i += s.size();
-                goto end_token_loop;
-            }
         }
 
 
@@ -126,7 +115,13 @@ JackTokenizer::JackTokenizer(std::string _filename){
             (isalpha(buffer[i]) or buffer[i] == '_' or isdigit(buffer[i]))
             ) temp += buffer[i++];
 
-            tokens.push_back(Token(temp, identifier));
+            // Handle tokens
+            if (keywords.count(temp)){
+                tokens.push_back(Token(temp, keyword));
+            }
+            else{
+                tokens.push_back(Token(temp, identifier));
+            }
 
             continue;
         }
